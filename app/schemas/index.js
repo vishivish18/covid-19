@@ -36,13 +36,9 @@ const schemas = {
             },
         }],
         lastUpdatedAt: {
-            type: Date,
-            default: Date.now()
-        },
-        province: {
-            type:String,
-            default: 'N/A'
+            type: Date
         }
+        province: String
 
     }
 };

@@ -1,0 +1,46 @@
+*,
+*:after,
+*:before{
+    margin: 0;
+    box-sizing: inherit;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    color: black;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y:hidden;
+}
+
+//over riding bootstrap
+.navbar {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    -webkit-box-shadow: 0 6px 6px -6px #ccc;
+    -moz-box-shadow: 0 6px 6px -6px #ccc;
+    box-shadow: 0 6px 6px -6px #ccc;
+    height: 60px !important;
+}
+
+//navbar font
+.navbar-font>a {
+    font-size: 14px;
+    color: #95989A !important;
+}
+.navbar-font>a:hover {
+    color: #212121 !important;
+}
+
+.custom-toggler.navbar-toggler { 
+    border-color: #2f8fe9b4;
+    outline: none;
+} 
+
+.custom-toggler-lines {
+    color:#2f8fe9b4; 
+    font-size: 20px;
+    margin:5px;
+
+}
