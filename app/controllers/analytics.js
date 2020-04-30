@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const baseController = require('./baseController');
 const analyticsModel = require('../models/analytics');
 
-
+apps
 class analyticsContorller extends baseController {
     constructor(...args) {
         super(...args);
