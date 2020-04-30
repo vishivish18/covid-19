@@ -18,8 +18,7 @@ jobs:
 
     - name: Install dependencies
       working-directory: ./covid19-dashboard
-      run: | 
-        npm install
+      run: npm install
         
     - name: Node ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -28,4 +27,4 @@ jobs:
         
     - name: Start the project
       working-directory: ./covid19-dashboard
-      run: npm run test
+      run: npm run build:ci
