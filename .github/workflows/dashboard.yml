@@ -1,0 +1,31 @@
+name: frontend
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+      
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Install dependencies
+      working-directory: ./covid19-dashboard
+      run: | 
+        npm install
+        
+    - name: Node ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Start the project
+      working-directory: ./covid19-dashboard
+      run: npm run start
