@@ -28,4 +28,4 @@ jobs:
         
     - name: Start the project
       working-directory: ./covid19-dashboard
-      run: npm run start
+      run: npm run test
