@@ -11,4 +11,8 @@ export class CountCardComponent implements OnInit {
   ngOnInit() {
   }
 
+  testFunction(){
+    
+  }
+
 }
