@@ -12,7 +12,7 @@ export class CountCardComponent implements OnInit {
   }
 
   testFunction(){
-    
+    console.log("make changes for develop branch to check actions")
   }
 
 }
