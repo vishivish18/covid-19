@@ -3,7 +3,7 @@ name: frontend
 on: 
   push:
     branches:
-      - master
+      - develop
 
 jobs:
       
