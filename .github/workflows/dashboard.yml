@@ -26,8 +26,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         
-    - name: npm ci and npm run build
+    - name: Start the project
       working-directory: ./covid19-dashboard
-      run: |
-          npm ci
-          npm run build:ci
+      run: npm run start
