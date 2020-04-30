@@ -25,3 +25,5 @@ app.use(routes.apiBaseUri, routes.api(app));
 app.listen(3112, () => {
     console.log("Hope is live at 3112");
 });
+
+module.exports = app
