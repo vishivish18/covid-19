@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 export class CountCardComponent implements OnInit {
 
   constructor() { }
-  LWET LASD
   ngOnInit() {
   }
 
