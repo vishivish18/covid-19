@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MAP_PATH } from '../../constants.js';
+import { COUNTRY_MAP_PATH } from '../../constants.js';
 import * as d3 from 'd3';
 import * as topojson from 'topojson';
 
@@ -14,8 +14,8 @@ export class CountryMapComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(MAP_PATH);
-    this.getMapdata(MAP_PATH)
+    console.log(COUNTRY_MAP_PATH);
+    this.getMapdata(COUNTRY_MAP_PATH)
     
   }
 
@@ -61,7 +61,7 @@ projection.fitSize([700, 700], topology);
             .enter().append("path")
             .attr('class','state')
             .attr("d", path)
-            //.attr("fill", '#cccccc')
+            .attr("fill", 'white')
             
             .on('click', function (d) {
               alert(d['properties']['st_nm'])

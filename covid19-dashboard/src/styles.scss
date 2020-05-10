@@ -1,13 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-svg { 
-    // background: #efefef;
+body { margin: 0; 
+    font-family: 'Raleway', sans-serif; 
+    background: #FFFFFF;
 }
+.country {
+    //fill: #cccccc;
+    stroke: #333333;
+    stroke-width: 0.5;
+}
+
 .state {
-    fill: #cccccc;
+    //fill: #cccccc;
     stroke: #333333;
     stroke-width: 0.5;
 }
@@ -15,5 +20,10 @@ svg {
     fill : yellow
 }
 .hovered {
-    fill: green
+    fill: #cccccc
 }
+
+svg {
+    //background: grey;
+}
+

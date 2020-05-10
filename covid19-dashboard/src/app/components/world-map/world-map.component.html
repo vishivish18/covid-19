@@ -1,0 +1,33 @@
+<div class="row" >
+  <div class="col-md-7">
+    <div id="worldmap" style="position: fixed;">
+    </div>
+  </div>
+  <div class="col-md-5" style="margin-top: 50px;">
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-3 offset-7">
+        {{selectedRegion}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <app-count-card [cardTitle]="'Confirmed'" [totalCount]="confirmed" [deltaCount]="deltaConfirmed" ></app-count-card>
+      </div>
+      <div class="col-md-3">
+        <app-count-card [cardTitle]="'Deaths'" [totalCount]="deaths" [deltaCount]="deaths"></app-count-card>
+      </div>
+      <div class="col-md-3">
+        <app-count-card [cardTitle]="'Recovered'" [totalCount]="recovered" [deltaCount]="recovered" ></app-count-card>
+      </div>
+      <div class="col-md-3">
+        <app-count-card [cardTitle]="'Active'" [totalCount]="active" [deltaCount]="active"></app-count-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <app-data-table></app-data-table>
+      </div>
+    </div>
+    
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-count-card',
@@ -7,12 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CountCardComponent implements OnInit {
 
+  @Input()
+  cardTitle: String
+
+  @Input()
+  totalCount: Number
+
+  @Input()
+  deltaCount: Number
+
+
+  
   constructor() { }
   ngOnInit() {
-  }
 
-  testFunction(){
-    console.log("make changes for develop branch to check actions")
   }
 
 }

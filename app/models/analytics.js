@@ -9,7 +9,6 @@ CountrySchema.index({ batchId: 1 });
 CountrySchema.methods = {};
 CountrySchema.statics = {
   saveRecord: function(data, isMany) {
-    console.log("hreereree")
     if (isMany) {
       return this.insertMany(data).then(res => {
         return res;
@@ -20,52 +19,9 @@ CountrySchema.statics = {
       });
     }
   },
-  get: function(criteria, sortOrder, limit, columns, pageNo) {
-    if (criteria && sortOrder && limit && pageNo && columns) {
-      return this.find(criteria, columns)
-        .sort(sortOrder)
-        .skip(pageNo > 0 ? (pageNo - 1) * limit : 0)
-        .limit(parseInt(limit))
-        .exec();
-    } else if (criteria && limit && pageNo && columns) {
-      return this.find(criteria, columns)
-        .skip(pageNo > 0 ? (pageNo - 1) * limit : 0)
-        .limit(parseInt(limit))
-        .exec();
-    } else if (criteria && columns && sortOrder && limit) {
-      return this.find(criteria, columns)
-        .sort(sortOrder)
-        .limit(parseInt(limit))
-        .exec();
-    } else if (criteria && limit && columns) {
-      return this.find(criteria, columns)
-        .limit(parseInt(limit))
-        .exec();
-    } else if (criteria && sortOrder && columns) {
-      return this.find(criteria, columns)
-        .sort(sortOrder)
-        .exec();
-    } else if (criteria && columns) {
-      return this.find(criteria, columns).exec();
-    } else if (criteria && sortOrder && limit) {
-      return this.find(criteria)
-        .sort(sortOrder)
-        .limit(parseInt(limit))
-        .exec();
-    } else if (criteria && sortOrder) {
-      return this.find(criteria)
-        .sort(sortOrder)
-        .exec();
-    } else if (criteria && limit) {
-      return this.find(criteria)
-        .limit(parseInt(limit))
-        .exec();
-    } else if (criteria && columns) {
-      return this.find(criteria, columns).exec();
-    } else if (criteria) {
-      return this.find(criteria).exec();
-    } else {
-      return this.find().exec();
+  get: async function (criteria, columns) {
+    if (criteria && columns) {
+      return await this.find(criteria, columns)
     }
   },
   getAggregateResult: function(criteria) {

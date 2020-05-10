@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+    background: white;
+    color:black;
+    margin-top: 50px;
+    border:none !important;
+    box-shadow: none;
+  }
+  td , th{
+    background: white;
+    color:black
+}
+
+tbody tr:nth-child(odd){
+    background-color: #4C8BF5 !important;
+    color: #fff !important;
+  }

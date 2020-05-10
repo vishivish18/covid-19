@@ -6,7 +6,8 @@ let express = require("express"),
 apiRoutes = (router) => {
     router = express.Router();
     router.get('/test',(req,res)=>{res.send('hello')})
-    router.get('/analytics',api.analytics.save)
+    //router.get('/analytics',api.analytics.save)
+    router.get('/analytics/count',api.analytics.get)
     return router;
 };
 
