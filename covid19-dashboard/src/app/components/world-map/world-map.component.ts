@@ -89,26 +89,26 @@ export class WorldMapComponent implements OnInit {
 
   selectCountry(data) {
     this.selectedRegion = data['properties']['name']
-    this.confirmed = this.allData[this.selectedRegion]['timesSeries'][0]['confirmed']['count']
-    this.deltaConfirmed = this.allData[this.selectedRegion]['timesSeries'][0]['confirmed']['delta']
-    this.deaths = this.allData[this.selectedRegion]['timesSeries'][0]['deaths']['count']
-    this.deltaDeaths = this.allData[this.selectedRegion]['timesSeries'][0]['deaths']['delta']
-    this.recovered = this.allData[this.selectedRegion]['timesSeries'][0]['recovered']['count']
-    this.deltaRecovered = this.allData[this.selectedRegion]['timesSeries'][0]['recovered']['delta']
-    this.active = this.allData[this.selectedRegion]['timesSeries'][0]['active']['count']
-    this.deltaActive = this.allData[this.selectedRegion]['timesSeries'][0]['active']['delta']
+    this.confirmed = this.allData[this.selectedRegion]['timeSeries'][0]['confirmed']['count']
+    this.deltaConfirmed = this.allData[this.selectedRegion]['timeSeries'][0]['confirmed']['delta']
+    this.deaths = this.allData[this.selectedRegion]['timeSeries'][0]['deaths']['count']
+    this.deltaDeaths = this.allData[this.selectedRegion]['timeSeries'][0]['deaths']['delta']
+    this.recovered = this.allData[this.selectedRegion]['timeSeries'][0]['recovered']['count']
+    this.deltaRecovered = this.allData[this.selectedRegion]['timeSeries'][0]['recovered']['delta']
+    this.active = this.allData[this.selectedRegion]['timeSeries'][0]['active']['count']
+    this.deltaActive = this.allData[this.selectedRegion]['timeSeries'][0]['active']['delta']
   }
 
   selectWorld() {
     this.selectedRegion = 'World'
-    this.confirmed = this.allData['world']['timesSeries'][0]['confirmed']['count']
-    this.deltaConfirmed = this.allData['world']['timesSeries'][0]['confirmed']['delta']
-    this.deaths = this.allData['world']['timesSeries'][0]['deaths']['count']
-    this.deltaDeaths = this.allData['world']['timesSeries'][0]['deaths']['delta']
-    this.recovered = this.allData['world']['timesSeries'][0]['recovered']['count']
-    this.deltaRecovered = this.allData['world']['timesSeries'][0]['recovered']['delta']
-    this.active = this.allData['world']['timesSeries'][0]['active']['count']
-    this.deltaActive = this.allData['world']['timesSeries'][0]['active']['delta']
+    this.confirmed = this.allData['World']['timeSeries'][0]['confirmed']['count']
+    this.deltaConfirmed = this.allData['World']['timeSeries'][0]['confirmed']['delta']
+    this.deaths = this.allData['World']['timeSeries'][0]['deaths']['count']
+    this.deltaDeaths = this.allData['World']['timeSeries'][0]['deaths']['delta']
+    this.recovered = this.allData['World']['timeSeries'][0]['recovered']['count']
+    this.deltaRecovered = this.allData['World']['timeSeries'][0]['recovered']['delta']
+    this.active = this.allData['World']['timeSeries'][0]['active']['count']
+    this.deltaActive = this.allData['World']['timeSeries'][0]['active']['delta']
   }
 
 
@@ -159,7 +159,7 @@ export class WorldMapComponent implements OnInit {
         var countryName = d['properties']['name']
         if (countryName) {
           if (that.allData[countryName]) {
-            var confirmedForCountry = that.allData[countryName]['timesSeries'][0]['confirmed']['count']
+            var confirmedForCountry = that.allData[countryName]['timeSeries'][0]['confirmed']['count']
             // let hsl = that.normalizeValues(countryName,confirmedForCountry, 0, 200000)
             // //console.log(hsl)
             // return d3.hsl(hsl.h, hsl.s, hsl.l)

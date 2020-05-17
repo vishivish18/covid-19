@@ -16,7 +16,7 @@ class analyticsContorller extends baseController {
         "long": "0"
       },
       "firstIncidentDate": "01-30-2020",
-      "timesSeries": [],
+      "timeSeries": [],
       "lastUpdatedAt": "04-25-2020",
       "province": "NA"
     }
@@ -28,7 +28,7 @@ class analyticsContorller extends baseController {
     let criteria = {}
     let columns = {}
     if (source == 'all') {
-      columns = {timesSeries: {$slice: -1}}
+      columns = {timeSeries: {$slice: -1}}
       analyticsModel.get(criteria, columns).then((result) => {
         var newObj = {}
         result.forEach((data)=>{
@@ -40,7 +40,7 @@ class analyticsContorller extends baseController {
     } else {
       if (duration == 'latest') {
         criteria = {"name": new RegExp(`^${source}$`, 'i')}
-        columns = {timesSeries: {$slice: -1}}
+        columns = {timeSeries: {$slice: -1}}
       }
       analyticsModel.get(criteria, columns).then((result) => {
         res.json(result)

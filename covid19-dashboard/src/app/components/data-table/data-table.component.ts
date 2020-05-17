@@ -26,10 +26,10 @@ export class DataTableComponent implements OnInit {
         let countryObj = {}
         countryObj['position'] = indexOfArray;
         countryObj['country'] = this.allCountryData[key]['name']
-        countryObj['confirmed'] = this.allCountryData[key]['timesSeries'][0]['confirmed']['count']
-        countryObj['deaths'] = this.allCountryData[key]['timesSeries'][0]['deaths']['count']
-        countryObj['recovered'] = this.allCountryData[key]['timesSeries'][0]['recovered']['count']
-        countryObj['active'] = this.allCountryData[key]['timesSeries'][0]['active']['count']
+        countryObj['confirmed'] = this.allCountryData[key]['timeSeries'][0]['confirmed']['count']
+        countryObj['deaths'] = this.allCountryData[key]['timeSeries'][0]['deaths']['count']
+        countryObj['recovered'] = this.allCountryData[key]['timeSeries'][0]['recovered']['count']
+        countryObj['active'] = this.allCountryData[key]['timeSeries'][0]['active']['count']
         console.log(this.allCountryData[key])
         ELEMENT_DATA.push(countryObj)
         indexOfArray ++

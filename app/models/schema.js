@@ -16,7 +16,7 @@ const schemas = {
         firstIncidentDate: {
             type: Date
         },
-        timesSeries: [{
+        timeSeries: [{
             date: Date,
             confirmed: {
                 count: Number,
