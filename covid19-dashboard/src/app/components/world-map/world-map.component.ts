@@ -3,6 +3,9 @@ import { WORLD_MAP_PATH } from '../../constants.js';
 import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
+ 
 
 @Component({
   selector: 'app-world-map',
@@ -21,6 +24,7 @@ export class WorldMapComponent implements OnInit {
   active: Number
   deltaActive: Number
   updatedAt: String
+  appRoot = environment.appRoot;
 
 
   constructor(private http: HttpClient) {}
@@ -28,7 +32,7 @@ export class WorldMapComponent implements OnInit {
     this.getAllCountryData()
   }
   async getAllCountryData() {
-    let obs = this.http.get('http://localhost:3112/api/v0.1/analytics/count?source=all&duration=latest')
+    let obs = this.http.get(this.appRoot+'/api/v0.1/analytics/count?source=all&duration=latest')
     await obs.subscribe((res) => {
       this.allData = res
       this.getMapdata(WORLD_MAP_PATH)
