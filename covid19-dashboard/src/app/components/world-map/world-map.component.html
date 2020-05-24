@@ -5,7 +5,10 @@
   </div>
   <div class="col-md-5" style="margin-top: 50px;">
     <div class="row" style="margin-bottom: 20px;">
-      <div class="col-md-3 offset-7">
+      <div class="col-md-5">
+        <p class="faded-text">Last Updated At: 9:30 am IST | {{allData['World']['timeSeries']['date']}}</p>
+      </div>
+      <div class="col-md-6">
         {{selectedRegion}}
       </div>
     </div>
@@ -14,10 +17,10 @@
         <app-count-card [cardTitle]="'Confirmed'" [totalCount]="confirmed" [deltaCount]="deltaConfirmed" ></app-count-card>
       </div>
       <div class="col-md-3">
-        <app-count-card [cardTitle]="'Deaths'" [totalCount]="deaths" [deltaCount]="deaths"></app-count-card>
+        <app-count-card [cardTitle]="'Deaths'" [totalCount]="deaths" [deltaCount]="deltaDeaths"></app-count-card>
       </div>
       <div class="col-md-3">
-        <app-count-card [cardTitle]="'Recovered'" [totalCount]="recovered" [deltaCount]="recovered" ></app-count-card>
+        <app-count-card [cardTitle]="'Recovered'" [totalCount]="recovered" [deltaCount]="deltaRecovered" ></app-count-card>
       </div>
       <div class="col-md-3">
         <app-count-card [cardTitle]="'Active'" [totalCount]="active" [deltaCount]="deltaActive"></app-count-card>

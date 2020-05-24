@@ -4,7 +4,7 @@
 let mongoose = require("mongoose"),
   schema = require("./schema"),
   CountrySchema = new mongoose.Schema(schema.dbSchema["countries"]);
-CountrySchema.index({ batchId: 1 });
+// CountrySchema.index({ batchId: 1 });
 
 CountrySchema.methods = {};
 CountrySchema.statics = {
@@ -25,9 +25,9 @@ CountrySchema.statics = {
     }
   },
   getAggregateResult: function(criteria) {
-    return this.aggregate(criteria)
-      .allowDiskUse(true)
-      .exec();
+    return this.aggregate([{$project:{name: 1,timeSeries: { $arrayElemAt: [ "$timeSeries", -1 ] }}},{$sort:{"timeSeries.confirmed.count":-1}}])
+      //.allowDiskUse(true)
+      //.exec();
   },
   getDistinctResult: (key, criteria) => {
     return this.distinct(key, criteria).exec();

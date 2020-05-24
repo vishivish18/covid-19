@@ -29,12 +29,12 @@ class analyticsContorller extends baseController {
     let columns = {}
     if (source == 'all') {
       columns = {timeSeries: {$slice: -1}}
-      analyticsModel.get(criteria, columns).then((result) => {
+      analyticsModel.getAggregateResult().then((result) => {
         var newObj = {}
         result.forEach((data)=>{
           newObj[data['name']]= data
         })
-
+        console.log(newObj)
         res.json(newObj)
       })
     } else {
@@ -46,9 +46,6 @@ class analyticsContorller extends baseController {
         res.json(result)
       })
     }
-
-   
-
   }
 }
 

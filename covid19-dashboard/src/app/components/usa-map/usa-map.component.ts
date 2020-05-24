@@ -29,7 +29,7 @@ export class UsaMapComponent implements OnInit {
     
     
     let margin = { top: 50, left:50, right:50, bottom: 50},
-    height = 900 - margin.top - margin.bottom,
+    height = 650 - margin.top - margin.bottom,
     width = 800 - margin.left - margin.right
     
     console.log(data)
@@ -49,7 +49,7 @@ export class UsaMapComponent implements OnInit {
                   .translate([width/2, height/2])
                   //.scale(10)
     
-projection.fitSize([700, 700], topology);
+projection.fitSize([1600, 1000], topology);
     let path = d3.geoPath()
             .projection(projection)
       
@@ -60,7 +60,7 @@ projection.fitSize([700, 700], topology);
             .enter().append("path")
             .attr('class','state')
             .attr("d", path)
-            //.attr("fill", '#cccccc')
+            .attr("fill", 'white')
             
             .on('click', function (d) {
               alert(d['properties']['st_nm'])

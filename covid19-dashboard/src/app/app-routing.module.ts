@@ -7,7 +7,7 @@ import { CountCardComponent } from './components/count-card/count-card.component
 import { WorldMapComponent } from './components/world-map/world-map.component'
 import { UsaMapComponent } from './components/usa-map/usa-map.component'
 const routes: Routes = [
-  { path: '', redirectTo: '/india', pathMatch: 'full' },
+  { path: '', redirectTo: '/world', pathMatch: 'full' },
   { path: 'india', component: CountryMapComponent, children: [
     { path: 'card', component: CountCardComponent }
   ] },
