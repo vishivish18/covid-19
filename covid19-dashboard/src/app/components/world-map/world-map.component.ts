@@ -62,14 +62,59 @@ export class WorldMapComponent implements OnInit {
       // case value > 43.75 && value <= 50:
       //   return '#157e3a'
         //Orange
-      case value > 0 && value <= 5:
-        return '#cfe1f2'
-      case value > 5 && value <= 50:
-        return '#4a97c9'
-      case value > 50 && value <= 75:
-        return '#F9812A'
+        // cfe1f2
+        // 93c4de
+        // 4a97c9
+        // 1764ab
+
+      //light #e1ecf7
+      // #cbdef0
+      // #abcfe5
+      // #81badb
+      // #58a1ce
+      // #3786c0
+      // #1a69ae
+      // #094c96
+
+      case value > 0 && value <= 1.1:
+        return '#e1ecf7'
+      case value > 1.1 && value <= 2:
+        return '#cbdef0'
+      case value > 2 && value <= 5:
+        return '#81badb'
+      case value > 5 && value <= 7:
+        return '#58a1ce'
+      case value > 7 && value <= 10:
+        return '#3786c0'
+      case value > 10 && value <= 15:
+        return '#1764ab'
+      case value > 15 && value <= 30:
+        return '#1a69ae'
+      case value > 30 && value <= 60:
+        return '#094c96'
+      case value > 60 && value <=80:
+        return '#fb8a6a'
+      case value > 80 && value <= 95:
+        return '#073b7d'
       case value > 75 && value <= 100:
-        return '#FC6600'
+        return '#bb141a'
+
+      // case value > 0 && value <= 1.1:
+      //   return '#d3edcc'
+      // case value > 1.1 && value <= 3:
+      //   return '#98d493'
+      // case value > 5 && value <= 10:
+      //   return '#4a97c9'
+      // case value > 10 && value <= 15:
+      //   return '#1764ab'
+      // case value > 30 && value <= 60:
+      //   return '#1764ab'
+      // case value > 60 && value <=80:
+      //   return '#fb8a6a'
+      // case value > 80 && value <= 95:
+      //   return '#f14431'
+      // case value > 75 && value <= 100:
+      //   return '#bb141a'
         //Red
       // case value > 75 && value <= 81.25:
       //   return '#fcc9b4'

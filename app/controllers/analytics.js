@@ -34,7 +34,6 @@ class analyticsContorller extends baseController {
         result.forEach((data)=>{
           newObj[data['name']]= data
         })
-        console.log(newObj)
         res.json(newObj)
       })
     } else {
