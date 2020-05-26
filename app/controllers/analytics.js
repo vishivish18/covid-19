@@ -23,7 +23,7 @@ class analyticsContorller extends baseController {
     analyticsModel.saveRecord(data, false)
   }
   get(req, res) {
-    let source = req.query.source
+    let source = decodeURIComponent(req.query.source)
     let duration = req.query.duration
     let criteria = {}
     let columns = {}
@@ -38,7 +38,8 @@ class analyticsContorller extends baseController {
       })
     } else {
       if (duration == 'latest') {
-        criteria = {"name": new RegExp(`^${source}$`, 'i')}
+        // criteria = {"name": new RegExp(`^${source}$`, 'i')}
+        criteria = {"name": source}
         columns = {timeSeries: {$slice: -1}}
       }
       analyticsModel.get(criteria, columns).then((result) => {
