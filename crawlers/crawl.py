@@ -33,46 +33,46 @@ list_of_countries = df['Country_Region'].unique()
 
 ## Getting daily data country wise
 def get_daily_data_for_country(country, df, valid_date):
-    confirmed_cases_count = 0
-    death_cases_count = 0
-    recovered_cases_count = 0
-    active_cases_count = 0
+    confirmed_cases = 0
+    death_cases = 0
+    recovered_cases = 0
+    active_cases = 0
     try:
-        confirmed_cases = df[df['Country/Region']==country]['Confirmed']
-        death_cases = df[df['Country/Region']==country]['Deaths']
-        recovered_cases = df[df['Country/Region']==country]['Recovered']
-        if len(confirmed_cases) > 0:
-            print("Total number of confirmed cases in Country/Region", country, ' on ', valid_date, ' was ', df[df['Country/Region']==country]['Confirmed'].sum())
-            confirmed_cases_count = df[df['Country/Region']==country]['Confirmed'].sum()
-        if len(death_cases) > 0:
-            print("Total number of deaths in Country/Region", country, ' on ', valid_date, ' was ', df[df['Country/Region']==country]['Deaths'].sum())
-            death_cases_count = df[df['Country/Region']==country]['Deaths'].sum()
-        if len(recovered_cases) > 0:
-            print("Total number of recovered cases in Country/Region", country, ' on ', valid_date, ' was ', df[df['Country/Region']==country]['Recovered'].sum())   
-            recovered_cases_count = df[df['Country/Region']==country]['Recovered'].sum()
-            active_cases_count = confirmed_cases_count - (recovered_cases_count + death_cases_count)
-            return confirmed_cases_count, death_cases_count, recovered_cases_count, active_cases_count, valid_date
+        if country == 'Denmark':
+            confirmed_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Confirmed'].sum()
+            death_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Deaths'].sum()
+            recovered_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Recovered'].sum()
+        else:
+            confirmed_cases = df[df['Country/Region']==country]['Confirmed'].sum()
+            death_cases = df[df['Country/Region']==country]['Deaths'].sum()
+            recovered_cases = df[df['Country/Region']==country]['Recovered'].sum()
+        print("Total number of confirmed cases in Country/Region", country, ' on ', valid_date, ' was ', confirmed_cases)
+        print("Total number of deaths in Country/Region", country, ' on ', valid_date, ' was ', death_cases)
+        print("Total number of recovered cases in Country/Region", country, ' on ', valid_date, ' was ', recovered_cases)   
+        active_cases = confirmed_cases - (recovered_cases + death_cases)
+        if confirmed_cases >0:
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
         else:
             print('No cases found in Country/Region ', country, ' on ', valid_date)
-            return confirmed_cases_count, death_cases_count, recovered_cases_count, active_cases_count, valid_date
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
     except:
-        confirmed_cases = df[df['Country_Region']==country]['Confirmed']
-        death_cases = df[df['Country_Region']==country]['Deaths']
-        recovered_cases = df[df['Country_Region']==country]['Recovered']
-        if len(confirmed_cases) > 0:
-            print("Total number of confirmed cases in Country_Region", country, ' on ', valid_date, ' was ', df[df['Country_Region']==country]['Confirmed'].sum())
-            confirmed_cases_count = df[df['Country_Region']==country]['Confirmed'].sum()
-        if len(death_cases) > 0:
-            print("Total number of deaths in Country_Region", country, ' on ', valid_date, ' was ', df[df['Country_Region']==country]['Deaths'].sum())
-            death_cases_count = df[df['Country_Region']==country]['Deaths'].sum()
-        if len(recovered_cases) > 0:
-            print("Total number of recovered cases in Country_Region", country, ' on ', valid_date, ' was ', df[df['Country_Region']==country]['Recovered'].sum())   
-            recovered_cases_count = df[df['Country_Region']==country]['Recovered'].sum()
-            active_cases_count = confirmed_cases_count - (recovered_cases_count + death_cases_count)
-            return confirmed_cases_count, death_cases_count, recovered_cases_count, active_cases_count, valid_date
+        if country == 'Denmark':
+            confirmed_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Confirmed'].sum()
+            death_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Deaths'].sum()
+            recovered_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Recovered'].sum()
+        else:
+            confirmed_cases = df[df['Country_Region']==country]['Confirmed'].sum()
+            death_cases = df[df['Country_Region']==country]['Deaths'].sum()
+            recovered_cases = df[df['Country_Region']==country]['Recovered'].sum()
+        print("Total number of confirmed cases in Country_Region", country, ' on ', valid_date, ' was ', confirmed_cases)
+        print("Total number of deaths in Country_Region", country, ' on ', valid_date, ' was ', death_cases)
+        print("Total number of recovered cases in Country_Region", country, ' on ', valid_date, ' was ', recovered_cases)   
+        active_cases = confirmed_cases - (recovered_cases + death_cases)
+        if confirmed_cases >0:
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
         else:
             print('No cases found in Country_Region ', country, ' on ', valid_date)
-            return confirmed_cases_count, death_cases_count, recovered_cases_count, active_cases_count, valid_date
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
         
 ## Saving daily data country wise
 def add_data_for_country_to_db(country,incident_date, total_confirmed, delta_confirmed, total_deaths, delta_deaths, total_recovered, delta_recovered, total_active, delta_active):
