@@ -29,8 +29,10 @@ countries_collection = database["countries"]
 ##temp read, move to DB 
 df = pd.read_csv('../lab/data/05-15-2020.csv')
 #countries_without_province = df[pd.isnull(df['Province_State'])]
-list_of_countries = df['Country_Region'].unique()
-
+# list_of_countries = df['Country_Region'].unique()
+# greenland_to_country = np.array(['Greenland'])
+# list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
+list_of_countries = np.array(['Greenland'])
 ## Getting daily data country wise
 def get_daily_data_for_country(country, df, valid_date):
     confirmed_cases = 0
@@ -42,6 +44,14 @@ def get_daily_data_for_country(country, df, valid_date):
             confirmed_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Confirmed'].sum()
             death_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Deaths'].sum()
             recovered_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Recovered'].sum()
+        elif country == 'Greenland':
+            try:
+                confirmed_cases = df[df['Province_State']=='Greenland']['Confirmed'].sum()
+                death_cases = df[df['Province_State']=='Greenland']['Deaths'].sum()
+                recovered_cases = df[df['Province_State']=='Greenland']['Recovered'].sum()
+                print('Confirmed cases for greenland',confirmed_cases)
+            except:
+                print('No cases found in Greenland')
         else:
             confirmed_cases = df[df['Country/Region']==country]['Confirmed'].sum()
             death_cases = df[df['Country/Region']==country]['Deaths'].sum()
@@ -60,6 +70,13 @@ def get_daily_data_for_country(country, df, valid_date):
             confirmed_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Confirmed'].sum()
             death_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Deaths'].sum()
             recovered_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Recovered'].sum()
+        elif country == 'Greenland':
+            try:
+                confirmed_cases = df[df['Province_State']=='Greenland']['Confirmed'].sum()
+                death_cases = df[df['Province_State']=='Greenland']['Deaths'].sum()
+                recovered_cases = df[df['Province_State']=='Greenland']['Recovered'].sum()
+            except:
+                print('No cases found in Greenland')
         else:
             confirmed_cases = df[df['Country_Region']==country]['Confirmed'].sum()
             death_cases = df[df['Country_Region']==country]['Deaths'].sum()
@@ -283,7 +300,6 @@ def process_world_data(from_date):
 
 
 def process_country_wise_data_for_date(for_date):
-    print("==6=== inside country_wise_data")
     valid_date = for_date
     valid_file_name = for_date+'.csv'
     df = pd.read_csv('../lab/data/'+valid_file_name)
@@ -337,7 +353,6 @@ def process_world_data_for_date(for_date):
 
 # Get latest CSV and valid date
 def get_latest_csv(valid_date):
-    print("==3=== inside get_latest_csv", valid_date)
     valid_file_name = valid_date +'.csv'
     valid_url = base_path_john_hopkins+valid_file_name
     print('trying to get data for......',valid_date,valid_url)
@@ -350,13 +365,11 @@ def get_latest_csv(valid_date):
 
 # Process to be called after valid date
 def process(valid_date):
-    print("==4=== inside process")
     if valid_date is None:
         process_country_wise_data(from_date=first_available_data_date)
         process_world_data(from_date=first_available_data_date)
         return jsonify({"Message" : "Crawler processed for" +first_available_data_date}), 200
     else:
-        print("==5=== inside else for country_wise_data")
         process_country_wise_data_for_date(for_date=valid_date)
         process_world_data_for_date(for_date=valid_date)
         return jsonify({"Message" : "Crawler processed for " +valid_date}), 200
@@ -377,7 +390,6 @@ def ignition():
 def crawl():
     valid_date = request.args.get('date')
     if valid_date is None:
-        print("==1=== inside craweler")
         now_utc = datetime.now(timezone.utc)
         yesterday_utc = now_utc - timedelta(days=1)
         yesterday_day = str(yesterday_utc.day)
@@ -391,8 +403,6 @@ def crawl():
         valid_date = yesterday_month+'-'+yesterday_day+'-'+yesterday_year
         hour_of_day= now_utc.hour
         if hour_of_day > 4:
-            print("==2=== inside craweler, calling get_latest_csv")
-            print("valid date is ",valid_date)
             get_latest_csv(valid_date)
         else:
             print("time not right",valid_date)

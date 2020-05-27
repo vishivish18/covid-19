@@ -260,7 +260,7 @@ export class WorldMapComponent implements OnInit {
             return colorCode
           } else {
             //console.log("prinint yellow",d)
-            return 'white'
+            return 'yellow'
           }
         }
       })
