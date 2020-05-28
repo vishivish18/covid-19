@@ -182,14 +182,14 @@ export class WorldMapComponent implements OnInit {
 
   selectCountry(data) {
     this.selectedRegion = data['properties']['name']    
-    this.confirmed = this.allData[this.selectedRegion]['timeSeries']['confirmed']['count']
-    this.deltaConfirmed = this.allData[this.selectedRegion]['timeSeries']['confirmed']['delta']
-    this.deaths = this.allData[this.selectedRegion]['timeSeries']['deaths']['count']
-    this.deltaDeaths = this.allData[this.selectedRegion]['timeSeries']['deaths']['delta']
-    this.recovered = this.allData[this.selectedRegion]['timeSeries']['recovered']['count']
-    this.deltaRecovered = this.allData[this.selectedRegion]['timeSeries']['recovered']['delta']
-    this.active = this.allData[this.selectedRegion]['timeSeries']['active']['count']
-    this.deltaActive = this.allData[this.selectedRegion]['timeSeries']['active']['delta']
+    this.confirmed = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['confirmed']['count'] : 'N/A'
+    this.deltaConfirmed = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['confirmed']['delta'] : 'N/A'
+    this.deaths = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['deaths']['count'] : 'N/A'
+    this.deltaDeaths = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['deaths']['delta'] : 'N/A'
+    this.recovered = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['recovered']['count'] : 'N/A'
+    this.deltaRecovered = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['recovered']['delta'] : 'N/A'
+    this.active = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['active']['count'] : 'N/A'
+    this.deltaActive = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['active']['delta'] : 'N/A'
   }
 
   selectWorld() {

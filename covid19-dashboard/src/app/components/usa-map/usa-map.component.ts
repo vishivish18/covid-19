@@ -45,11 +45,11 @@ export class UsaMapComponent implements OnInit {
            .attr("transform", "translate("+margin.left+ ","+margin.top+")");
 
 
-    let projection = d3.geoMercator()
+    let projection = d3.geoAlbersUsa()
                   .translate([width/2, height/2])
                   //.scale(10)
     
-projection.fitSize([1600, 1000], topology);
+projection.fitSize([700, 700], topology);
     let path = d3.geoPath()
             .projection(projection)
       

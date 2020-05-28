@@ -29,10 +29,11 @@ countries_collection = database["countries"]
 ##temp read, move to DB 
 df = pd.read_csv('../lab/data/05-15-2020.csv')
 #countries_without_province = df[pd.isnull(df['Province_State'])]
-# list_of_countries = df['Country_Region'].unique()
-# greenland_to_country = np.array(['Greenland'])
-# list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
-list_of_countries = np.array(['Greenland'])
+list_of_countries = df['Country_Region'].unique()
+greenland_to_country = np.array(['Greenland'])
+list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
+# list_of_countries = np.array(['Greenland'])
+print(list_of_countries)
 ## Getting daily data country wise
 def get_daily_data_for_country(country, df, valid_date):
     confirmed_cases = 0
@@ -41,17 +42,23 @@ def get_daily_data_for_country(country, df, valid_date):
     active_cases = 0
     try:
         if country == 'Denmark':
-            confirmed_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Confirmed'].sum()
-            death_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Deaths'].sum()
-            recovered_cases = df[(df['Country/Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Recovered'].sum()
+            try:
+                confirmed_cases = df[(df['Country/Region']=='Denmark') & (df['Province/State']!='Greenland') ]['Confirmed'].sum()
+                death_cases = df[(df['Country/Region']=='Denmark') & (df['Province/State']!='Greenland') ]['Deaths'].sum()
+                recovered_cases = df[(df['Country/Region']=='Denmark') & (df['Province/State']!='Greenland') ]['Recovered'].sum()
+            except:
+                confirmed_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Confirmed'].sum()
+                death_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Deaths'].sum()
+                recovered_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Recovered'].sum()
         elif country == 'Greenland':
             try:
+                confirmed_cases = df[df['Province/State']=='Greenland']['Confirmed'].sum()
+                death_cases = df[df['Province/State']=='Greenland']['Deaths'].sum()
+                recovered_cases = df[df['Province/State']=='Greenland']['Recovered'].sum()
+            except:
                 confirmed_cases = df[df['Province_State']=='Greenland']['Confirmed'].sum()
                 death_cases = df[df['Province_State']=='Greenland']['Deaths'].sum()
                 recovered_cases = df[df['Province_State']=='Greenland']['Recovered'].sum()
-                print('Confirmed cases for greenland',confirmed_cases)
-            except:
-                print('No cases found in Greenland')
         else:
             confirmed_cases = df[df['Country/Region']==country]['Confirmed'].sum()
             death_cases = df[df['Country/Region']==country]['Deaths'].sum()
@@ -66,21 +73,9 @@ def get_daily_data_for_country(country, df, valid_date):
             print('No cases found in Country/Region ', country, ' on ', valid_date)
             return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
     except:
-        if country == 'Denmark':
-            confirmed_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Confirmed'].sum()
-            death_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Deaths'].sum()
-            recovered_cases = df[(df['Country_Region']=='Denmark') & (df['Province_State']!='Greenland') ]['Recovered'].sum()
-        elif country == 'Greenland':
-            try:
-                confirmed_cases = df[df['Province_State']=='Greenland']['Confirmed'].sum()
-                death_cases = df[df['Province_State']=='Greenland']['Deaths'].sum()
-                recovered_cases = df[df['Province_State']=='Greenland']['Recovered'].sum()
-            except:
-                print('No cases found in Greenland')
-        else:
-            confirmed_cases = df[df['Country_Region']==country]['Confirmed'].sum()
-            death_cases = df[df['Country_Region']==country]['Deaths'].sum()
-            recovered_cases = df[df['Country_Region']==country]['Recovered'].sum()
+        confirmed_cases = df[df['Country_Region']==country]['Confirmed'].sum()
+        death_cases = df[df['Country_Region']==country]['Deaths'].sum()
+        recovered_cases = df[df['Country_Region']==country]['Recovered'].sum()
         print("Total number of confirmed cases in Country_Region", country, ' on ', valid_date, ' was ', confirmed_cases)
         print("Total number of deaths in Country_Region", country, ' on ', valid_date, ' was ', death_cases)
         print("Total number of recovered cases in Country_Region", country, ' on ', valid_date, ' was ', recovered_cases)   
@@ -418,7 +413,7 @@ def crawl():
 @cross_origin()
 def process_all():
     process_country_wise_data(from_date=first_available_data_date)
-    process_world_data(from_date=first_available_data_date)
+    #process_world_data(from_date=first_available_data_date)
     return jsonify({"Message" : "Crawler processed for" +str(first_available_data_date)}), 200
 
 
