@@ -9,6 +9,8 @@ from flask import Flask, request, redirect, url_for, abort, jsonify, flash
 from flask_cors import CORS, cross_origin
 from datetime import date, datetime,timezone, timedelta
 import numpy as np
+from config import DB_URL, API_URL
+
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -20,7 +22,7 @@ days_since_first_data = (today-first_available_data_date).days
 date_iterator = first_available_data_date
 
 #db connection
-dbstring = "mongodb+srv://jarvis:iJeX.3yhgazU29#@covid-19-f8hds.mongodb.net/covid-19"
+dbstring = DB_URL
 myclient = pymongo.MongoClient(dbstring)
 database = myclient["covid-19"]
 countries_collection = database["countries"]
@@ -33,7 +35,6 @@ list_of_countries = df['Country_Region'].unique()
 greenland_to_country = np.array(['Greenland'])
 list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
 # list_of_countries = np.array(['Greenland'])
-print(list_of_countries)
 ## Getting daily data country wise
 def get_daily_data_for_country(country, df, valid_date):
     confirmed_cases = 0
@@ -306,7 +307,7 @@ def process_country_wise_data_for_date(for_date):
         print("=========recovered",total_recovered)
         print("=========active",total_active)
         print("=========date",day_of_incidence)
-        res_data = requests.get('http://localhost:3112/api/v0.1/analytics/count?source='+ country +'&duration=latest').json()
+        res_data = requests.get(API_URL+'/api/v0.1/analytics/count?source='+ country +'&duration=latest').json()
         previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
         previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
         previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
@@ -332,7 +333,7 @@ def process_world_data_for_date(for_date):
     print("=========deaths",total_deaths)
     print("=========recovered",total_recovered)
     print("=========active",total_active)
-    res_data = requests.get('http://localhost:3112/api/v0.1/analytics/count?source=World&duration=latest').json()
+    res_data = requests.get(API_URL+'/api/v0.1/analytics/count?source=World&duration=latest').json()
     previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
     previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
     previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
@@ -413,7 +414,7 @@ def crawl():
 @cross_origin()
 def process_all():
     process_country_wise_data(from_date=first_available_data_date)
-    #process_world_data(from_date=first_available_data_date)
+    process_world_data(from_date=first_available_data_date)
     return jsonify({"Message" : "Crawler processed for" +str(first_available_data_date)}), 200
 
 

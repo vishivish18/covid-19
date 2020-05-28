@@ -1,2 +1,4 @@
 .DS_Store
 */node_modules/
+crawlers/config.py
+*/__pycache__/
