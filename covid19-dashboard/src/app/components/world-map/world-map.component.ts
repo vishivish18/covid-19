@@ -256,7 +256,7 @@ export class WorldMapComponent implements OnInit {
             // let hsl = that.normalizeValues(countryName,confirmedForCountry, 0, 200000)
             // //console.log(hsl)
             // return d3.hsl(hsl.h, hsl.s, hsl.l)
-            let colorCode = that.normalizeValues( countryName, confirmedForCountry, 0, 1800000)
+            let colorCode = that.normalizeValues( countryName, confirmedForCountry, 0, 2000000)
             return colorCode
           } else {
             //console.log("prinint yellow",d)
