@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  appRoot: 'https://coronalogy.xyz'
+  appRoot: 'https://api.coronalogy.xyz'
 };
