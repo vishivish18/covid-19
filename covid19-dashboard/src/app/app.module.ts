@@ -10,7 +10,9 @@ import { CountryMapComponent } from './components/country-map/country-map.compon
 import { WorldMapComponent } from './components/world-map/world-map.component';
 import { UsaMapComponent } from './components/usa-map/usa-map.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
-import { MatTableModule } from '@angular/material'  
+import { MatTableModule } from '@angular/material';
+import { WhoComponent } from './components/who/who.component';
+import { PredictionsAnalysisComponent } from './components/predictions-analysis/predictions-analysis.component'  
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { MatTableModule } from '@angular/material'
     CountryMapComponent,
     WorldMapComponent,
     UsaMapComponent,
-    DataTableComponent
+    DataTableComponent,
+    WhoComponent,
+    PredictionsAnalysisComponent
   ],
   imports: [
     BrowserModule,
