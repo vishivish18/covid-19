@@ -290,7 +290,7 @@ def process_world_data(from_date):
                 add_data_for_world_to_db(date_of_first_incident, int(total_confirmed), int(delta_confirmed), total_deaths=0, delta_deaths=0, total_recovered=0, delta_recovered=0, total_active=0, delta_active=0,world_minimum_confirmed=0, world_minimum_deaths=0, world_minimum_recovered=0, world_maximum_confirmed=0, world_maximum_deaths=0, world_maximum_recovered=0)
                 first_case_found = True
             else:
-                add_data_for_world_to_db(valid_date, int(total_confirmed), int(delta_confirmed), int(total_deaths), int(delta_deaths), int(total_recovered), int(delta_recovered),int(total_active), int(delta_active), world_minimum_confirmed, world_minimum_deaths, world_minimum_recovered, world_maximum_confirmed, world_maximum_deaths, world_maximum_recovered)
+                add_data_for_world_to_db(valid_date, int(total_confirmed), int(delta_confirmed), int(total_deaths), int(delta_deaths), int(total_recovered), int(delta_recovered),int(total_active), int(delta_active), int(world_minimum_confirmed), int(world_minimum_deaths), int(world_minimum_recovered), int(world_maximum_confirmed), int(world_maximum_deaths), int(world_maximum_recovered))
         date_iterator = date_iterator + timedelta(days=1)    
 
 
