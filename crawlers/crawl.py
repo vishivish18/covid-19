@@ -343,7 +343,7 @@ def process_world_data_for_date(for_date):
     delta_recovered = total_recovered - previous_recovered_count
     delta_active = total_active - previous_active_count
     print("delta",delta_confirmed,delta_deaths, delta_recovered, delta_active )
-    add_data_for_world_to_db(valid_date, int(total_confirmed), int(delta_confirmed), int(total_deaths), int(delta_deaths), int(total_recovered), int(delta_recovered),int(total_active), int(delta_active), world_minimum_confirmed, world_minimum_deaths, world_minimum_recovered, world_maximum_confirmed, world_maximum_deaths, world_maximum_recovered)
+    add_data_for_world_to_db(valid_date, int(total_confirmed), int(delta_confirmed), int(total_deaths), int(delta_deaths), int(total_recovered), int(delta_recovered),int(total_active), int(delta_active), int(world_minimum_confirmed), world_minimum_deaths, int(world_minimum_recovered), int(world_maximum_confirmed), int(world_maximum_deaths), int(world_maximum_recovered))
     return None
 
 
