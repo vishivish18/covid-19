@@ -13,6 +13,9 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { MatTableModule } from '@angular/material';
 import { WhoComponent } from './components/who/who.component';
 import { PredictionsAnalysisComponent } from './components/predictions-analysis/predictions-analysis.component'  
+import { SizeDetectorComponent } from './components/size-detector/size-detector.component'
+import { ResizeService } from './components/size-detector/resize.service'
+
 
 
 @NgModule({
@@ -25,7 +28,8 @@ import { PredictionsAnalysisComponent } from './components/predictions-analysis/
     UsaMapComponent,
     DataTableComponent,
     WhoComponent,
-    PredictionsAnalysisComponent
+    PredictionsAnalysisComponent,
+    SizeDetectorComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,7 @@ import { PredictionsAnalysisComponent } from './components/predictions-analysis/
     HttpClientModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [ResizeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {  }

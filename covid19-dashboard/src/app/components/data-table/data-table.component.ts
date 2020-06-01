@@ -19,7 +19,6 @@ export class DataTableComponent implements OnInit {
   }
   parseAllData () {
     ELEMENT_DATA
-    console.log(this.allCountryData)
     let indexOfArray = 1;
     for(let key in this.allCountryData){
       if(this.allCountryData.hasOwnProperty(key)){
@@ -31,7 +30,6 @@ export class DataTableComponent implements OnInit {
         countryObj['deaths'] = this.allCountryData[key]['timeSeries']['deaths']['count']
         countryObj['recovered'] = this.allCountryData[key]['timeSeries']['recovered']['count']
         countryObj['active'] = this.allCountryData[key]['timeSeries']['active']['count']
-        console.log(this.allCountryData[key])
         ELEMENT_DATA.push(countryObj)
         indexOfArray ++
         }

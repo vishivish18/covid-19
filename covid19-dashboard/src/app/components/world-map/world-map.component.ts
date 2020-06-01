@@ -1,9 +1,12 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, HostListener } from '@angular/core';
 import { WORLD_MAP_PATH } from '../../constants.js';
 import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ResizeService } from '../size-detector/resize.service'
+import { SCREEN_SIZE } from '../size-detector/screen-size.enum';
+import { delay } from 'rxjs/operators';
 
  
 
@@ -25,11 +28,26 @@ export class WorldMapComponent implements OnInit {
   deltaActive: Number
   updatedAt: String
   appRoot = environment.appRoot;
+  innerWidth:any
+  innerHeight:any
 
+  size: SCREEN_SIZE;
+  constructor(private resizeSvc: ResizeService, private http: HttpClient) { 
+    this.resizeSvc.onResize$
+      .pipe(delay(0))
+      .subscribe(x => {
+        console.log('inside subscribe')
+        this.size = x;
+        this.innerWidth = window.innerWidth
+        this.innerHeight = window.innerHeight      
+      });
 
-  constructor(private http: HttpClient) {}
+  }
   ngOnInit() {
     this.getAllCountryData()
+    this.innerWidth = window.innerWidth
+    this.innerHeight = window.innerHeight
+    console.log("CHANGED",this.innerWidth, this.innerHeight)
   }
   async getAllCountryData() {
     let obs = this.http.get(this.appRoot+'/api/v0.1/analytics/count?source=all&duration=latest')
@@ -40,6 +58,7 @@ export class WorldMapComponent implements OnInit {
       
     })
   }
+
 
   getHeatMapColor(value) {
     switch (true) {
@@ -175,7 +194,7 @@ export class WorldMapComponent implements OnInit {
     let maxRange = 100
     let minRange = 1
     let newvalue = (maxRange - minRange) / (max - min) * (value - max) + maxRange
-    console.log("Normalized for ",countryName, "is value ",newvalue )
+    //console.log("Normalized for ",countryName, "is value ",newvalue )
     return this.getHeatMapColor(newvalue)
 
   }
@@ -218,9 +237,11 @@ export class WorldMapComponent implements OnInit {
         left: 50,
         right: 50,
         bottom: 50
-      },
-      height = 650 - margin.top - margin.bottom,
-      width = 1000 - margin.left - margin.right
+      }
+      let height = (2/3) * this.innerWidth
+      let width = (2/3) * this.innerWidth
+      height = height - margin.top - margin.bottom,
+      width = width - margin.left - margin.right
 
 
     let svg = d3.select('#worldmap')
@@ -232,10 +253,10 @@ export class WorldMapComponent implements OnInit {
 
 
     let projection = d3.geoMercator()
-      .translate([width / 2, height / 2])
-      .scale(120)
+      //.translate([width / 2, height / 2])
+      //.scale(120)
 
-    projection.fitSize([900, 900], topology);
+    projection.fitSize([height-300, width-300], topology);
 
     let path = d3.geoPath()
       .projection(projection)
@@ -267,7 +288,7 @@ export class WorldMapComponent implements OnInit {
 
       .on('click', function (d) {
         //console.log(d['properties']['name'])
-        d3.select(this).classed("selected", true)
+        //d3.select(this).classed("selected", true)
         d3.select(this).text("New");
       })
       
