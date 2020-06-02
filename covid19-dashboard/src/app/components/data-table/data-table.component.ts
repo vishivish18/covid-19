@@ -27,9 +27,13 @@ export class DataTableComponent implements OnInit {
         countryObj['position'] = indexOfArray;
         countryObj['country'] = this.allCountryData[key]['name']
         countryObj['confirmed'] = this.allCountryData[key]['timeSeries']['confirmed']['count']
+        countryObj['deltaConfirmed'] = this.allCountryData[key]['timeSeries']['confirmed']['delta']
         countryObj['deaths'] = this.allCountryData[key]['timeSeries']['deaths']['count']
+        countryObj['deltaDeaths'] = this.allCountryData[key]['timeSeries']['deaths']['delta']
         countryObj['recovered'] = this.allCountryData[key]['timeSeries']['recovered']['count']
+        countryObj['deltaRecovered'] = this.allCountryData[key]['timeSeries']['recovered']['delta']
         countryObj['active'] = this.allCountryData[key]['timeSeries']['active']['count']
+        countryObj['deltaActive'] = this.allCountryData[key]['timeSeries']['active']['delta']
         ELEMENT_DATA.push(countryObj)
         indexOfArray ++
         }

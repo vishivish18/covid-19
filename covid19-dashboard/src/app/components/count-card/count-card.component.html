@@ -1,5 +1,5 @@
 <div class="custom-card">
-  <p class="custom-card-title">{{cardTitle}}</p>
+  <p class="custom-card-title" [ngStyle]="{'color': color}">{{cardTitle}}</p>
   <p>{{totalCount}}</p>
-  <small>+{{deltaCount}}</small>
+  <small [ngStyle]="{'color': color}">+{{deltaCount}}</small>
 </div>

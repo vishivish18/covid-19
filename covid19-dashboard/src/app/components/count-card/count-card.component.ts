@@ -15,7 +15,9 @@ export class CountCardComponent implements OnInit {
 
   @Input()
   deltaCount: Number
-
+  
+  @Input()
+  color: String
 
   
   constructor() { }
