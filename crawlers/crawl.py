@@ -391,16 +391,30 @@ def crawl():
         yesterday_day = str(yesterday_utc.day)
         yesterday_month = str(yesterday_utc.month)
         yesterday_year = str(yesterday_utc.year)
+        print("Current Time is", now_utc)
+        print("Yesterday was", yesterday_utc)
+        print("Yesterday day", yesterday_day)
+        print("Yesterday month", yesterday_month)
+        print("Yesterday year", yesterday_year)
+
         if len(yesterday_day) <2 :
+            print("Yesterday day length is less than 2",yesterday_day )
             yesterday_day = '0'+str(yesterday_utc.day)
+            print("NEW yesterday day is", yesterday_day)
         if len(yesterday_month) <2 :
+            print("Yesterday month length is less than 2",yesterday_month )
             yesterday_month = '0'+str(yesterday_utc.month)
+            print("NEW yesterday month is", yesterday_month)
 
         valid_date = yesterday_month+'-'+yesterday_day+'-'+yesterday_year
+        print("valid date is", valid_date)
         hour_of_day= now_utc.hour
+        print("hour of day is",hour_of_day )
         if hour_of_day > 4:
+            print("hour of day is less than 4",hour_of_day)
             get_latest_csv(valid_date)
         else:
+            print("hour of day is not less than 4",hour_of_day)
             print("time not right",valid_date)
     else:
         get_latest_csv(valid_date)
