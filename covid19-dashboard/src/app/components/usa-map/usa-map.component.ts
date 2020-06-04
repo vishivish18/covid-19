@@ -187,8 +187,8 @@ export class UsaMapComponent implements OnInit {
     let margin = { top: 50, left:50, right:50, bottom: 50}
     let height = (2/3) * this.innerWidth
     let width = (2/3) * this.innerWidth
-    height = 650 - margin.top - margin.bottom
-    width = 800 - margin.left - margin.right
+    height = height - margin.top - margin.bottom
+    width = width - margin.left - margin.right
     
     console.log(data)
     console.log(data.objects['states'])
@@ -207,7 +207,7 @@ export class UsaMapComponent implements OnInit {
                   //.translate([width/2, height/2])
                   //.scale(10)
     
-    projection.fitSize([700, 700], topology);
+    projection.fitSize([height-280, width-280], topology);
     let path = d3.geoPath()
             .projection(projection)
             let that = this
