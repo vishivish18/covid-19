@@ -16,7 +16,9 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 base_path_john_hopkins = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/'
+base_path_john_hopkins_us_data = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports_us/'
 first_available_data_date = date(2020,1,22)
+first_available_us_data_date = date(2020,4,12)
 today = date.today()
 days_since_first_data = (today-first_available_data_date).days
 date_iterator = first_available_data_date
@@ -31,9 +33,9 @@ india_collection = database["india"]
 
 
 ##temp read, move to DB 
-df = pd.read_csv('../lab/data/05-15-2020.csv')
+base_world_df = pd.read_csv('../lab/data/05-15-2020.csv')
 #countries_without_province = df[pd.isnull(df['Province_State'])]
-list_of_countries = df['Country_Region'].unique()
+list_of_countries = base_world_df['Country_Region'].unique()
 greenland_to_country = np.array(['Greenland'])
 list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
 # list_of_countries = np.array(['Greenland'])
@@ -41,7 +43,10 @@ list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
 
 
 ##adding list of US States
-list_of_US_states = df[df['Country_Region']=='US']['Province_State'].unique()
+base_us_df = pd.read_csv('../lab/data/us/05-15-2020.csv')
+
+list_of_US_states = base_us_df[base_us_df['Country_Region']=='US']['Province_State'].unique()
+#list_of_US_states = ['Alaska']
 
 
 ## Getting daily data state wise for US
@@ -132,7 +137,7 @@ def process_us_state_wise_data(from_date):
 
             print(day," st day valid date is:",valid_file_name)
             try:
-                df = pd.read_csv('../lab/data/'+valid_file_name)
+                df = pd.read_csv('../lab/data/us/'+valid_file_name)
                 df.fillna(0, axis=1,inplace=True)
 
                 total_confirmed, total_deaths, total_recovered, total_active, date_of_first_incident = get_daily_data_for_us_state(state,df,valid_date)
@@ -523,20 +528,26 @@ def process_world_data_for_date(for_date):
 def get_latest_csv(valid_date):
     valid_file_name = valid_date +'.csv'
     valid_url = base_path_john_hopkins+valid_file_name
+    valid_url_for_us = base_path_john_hopkins_us_data+valid_file_name
     print('trying to get data for......',valid_date,valid_url)
-    r = requests.get(valid_url)
-    if r.ok:
-        data = r.content.decode('utf8')
+    requestWorld = requests.get(valid_url)
+    requestUS = requests.get(valid_url_for_us)
+    if requestWorld.ok:
+        data = requestWorld.content.decode('utf8')
         df = pd.read_csv(io.StringIO(data))
         df.to_csv('../lab/data/'+valid_file_name,index=False)
-        process(valid_date)
+    if requestUS.ok:
+        data = requestUS.content.decode('utf8')
+        df = pd.read_csv(io.StringIO(data))
+        df.to_csv('../lab/data/us/'+valid_file_name,index=False)
+    process(valid_date)
 
 # Process to be called after valid date
 def process(valid_date):
     if valid_date is None:
         process_country_wise_data(from_date=first_available_data_date)
         process_world_data(from_date=first_available_data_date)
-        process_us_state_wise_data(from_date=first_available_data_date)
+        process_us_state_wise_data(from_date=first_available_us_data_date)
         return jsonify({"Message" : "Crawler processed for" +first_available_data_date}), 200
     else:
         process_country_wise_data_for_date(for_date=valid_date)
@@ -601,9 +612,9 @@ def crawl():
 @app.route("/process")
 @cross_origin()
 def process_all():
-    #process_country_wise_data(from_date=first_available_data_date)
-    #process_world_data(from_date=first_available_data_date)
-    process_us_state_wise_data(from_date=first_available_data_date)
+    process_country_wise_data(from_date=first_available_data_date)
+    process_world_data(from_date=first_available_data_date)
+    process_us_state_wise_data(from_date=first_available_us_data_date)
     return jsonify({"Message" : "Crawler processed for" +str(first_available_data_date)}), 200
 
 
