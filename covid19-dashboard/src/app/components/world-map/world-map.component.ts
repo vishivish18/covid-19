@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { ResizeService } from '../size-detector/resize.service'
 import { SCREEN_SIZE } from '../size-detector/screen-size.enum';
 import { delay } from 'rxjs/operators';
+import { DataService } from 'src/app/services/data.service.js';
 
  
 
@@ -32,7 +33,7 @@ export class WorldMapComponent implements OnInit {
   innerHeight:any
 
   size: SCREEN_SIZE;
-  constructor(private resizeSvc: ResizeService, private http: HttpClient) { 
+  constructor(private resizeSvc: ResizeService, private http: HttpClient, private updateSvc: DataService) { 
     this.resizeSvc.onResize$
       .pipe(delay(0))
       .subscribe(x => {
@@ -53,6 +54,7 @@ export class WorldMapComponent implements OnInit {
     let obs = this.http.get(this.appRoot+'/api/v0.1/analytics/count?scope=world&source=all&duration=latest')
     await obs.subscribe((res) => {
       this.allData = res
+      this.updateSvc.updateData(this.allData)
       this.getMapdata(WORLD_MAP_PATH)
       this.selectWorld()
       

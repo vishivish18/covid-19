@@ -28,7 +28,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <app-data-table [flag]="'World'" [allData]="allData" ></app-data-table>
+        <app-data-table *ngIf="allData" [flag]="'World'" [allData]="allData" ></app-data-table>
       </div>
     </div>
     
