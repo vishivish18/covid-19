@@ -446,7 +446,7 @@ def process_us_state_wise_data_for_date(for_date):
     df = pd.read_csv('../lab/data/'+valid_file_name)
     df.fillna(0, axis=1,inplace=True)
     for state in list_of_countries:
-        total_confirmed, total_deaths, total_recovered, total_active, day_of_incidence = get_daily_data_for_state(state,df,valid_date)
+        total_confirmed, total_deaths, total_recovered, total_active, day_of_incidence = get_daily_data_for_us_state(state,df,valid_date)
         print("=========confirmed",total_confirmed)
         print("=========deaths",total_deaths)
         print("=========recovered",total_recovered)
@@ -552,7 +552,7 @@ def process(valid_date):
     else:
         process_country_wise_data_for_date(for_date=valid_date)
         process_world_data_for_date(for_date=valid_date)
-        process_us_state_wise_data(from_date=valid_date)
+        process_us_state_wise_data_for_date(for_date=valid_date)
         return jsonify({"Message" : "Crawler processed for " +valid_date}), 200
     
 
