@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 //TODO: Implement interface
 
@@ -20,9 +21,12 @@ export class DataTableComponent implements OnInit {
   @Input()
   flag:String
 
+  constructor (private updateSvc: DataService) {
+    
+  }
+
   ngOnInit() {
     this.parseAllData()
-    
   }
   parseAllData () {
     console.log("parsing for",this.flag)
@@ -53,8 +57,6 @@ export class DataTableComponent implements OnInit {
       this.name = 'State/Other'
     }
     this.displayedColumns= ['position','name', 'confirmed', 'deaths','recovered','active'];
-  
-    
     this.dataSource = ELEMENT_DATA;
   }
 }
