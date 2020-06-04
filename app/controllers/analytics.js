@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const baseController = require('./baseController');
-const analyticsModel = require('../models/analytics');
+const countryModel = require('../models/country');
+const stateModel = require('../models/state');
 
 class analyticsContorller extends baseController {
   constructor(...args) {
@@ -20,35 +21,65 @@ class analyticsContorller extends baseController {
       "lastUpdatedAt": "04-25-2020",
       "province": "NA"
     }
-    analyticsModel.saveRecord(data, false)
+    countryModel.saveRecord(data, false)
   }
   get(req, res) {
     let source = decodeURIComponent(req.query.source)
     let duration = req.query.duration
+    let scope = req.query.scope
     let criteria = {}
     let columns = {}
-    if (source == 'all') {
-      columns = {timeSeries: {$slice: -1}}
-      analyticsModel.getAggregateResult().then((result) => {
-        var newObj = {}
-        result.forEach((data)=>{
-          newObj[data['name']]= data
-        })
-        res.json(newObj)
-      })
-    } else {
-      if (duration == 'latest') {
-        // criteria = {"name": new RegExp(`^${source}$`, 'i')}
-        criteria = {"name": source}
+    if(scope == 'world') {
+      if (source == 'all') {
         columns = {timeSeries: {$slice: -1}}
+        countryModel.getAggregateResult().then((result) => {
+          var newObj = {}
+          result.forEach((data)=>{
+            newObj[data['name']]= data
+          })
+          res.json(newObj)
+        })
+      } else {
+        if (duration == 'latest') {
+          // criteria = {"name": new RegExp(`^${source}$`, 'i')}
+          criteria = {"name": source}
+          columns = {timeSeries: {$slice: -1}}
+        }
+        countryModel.get(criteria, columns).then((result) => {
+          res.json(result)
+        })
       }
-      analyticsModel.get(criteria, columns).then((result) => {
-        res.json(result)
-      })
+    } else if (scope == 'usa') {
+      if (source == 'all') {
+        criteria = {"name": "US"}
+        columns = {timeSeries: {$slice: -1}}
+        stateModel.getAggregateResult().then((result) => {
+          var newObj = {}
+          result.forEach((data)=>{
+            newObj[data['name']]= data
+          })
+          countryModel.get(criteria, columns).then((result) => {
+            var usa_data = result[0]
+            newObj['US'] = usa_data
+            res.json(newObj)
+          })
+          
+        })
+      } else {
+        if (duration == 'latest') {
+          // criteria = {"name": new RegExp(`^${source}$`, 'i')}
+          criteria = {"name": source}
+          columns = {timeSeries: {$slice: -1}}
+        }
+        stateModel.get(criteria, columns).then((result) => {
+          res.json(result)
+        })
+      }
+
     }
   }
 }
 
-let analytics = new analyticsContorller(analyticsModel);
+let analytics = new analyticsContorller(countryModel);
 
 module.exports = analytics;

@@ -26,6 +26,8 @@ dbstring = DB_URL
 myclient = pymongo.MongoClient(dbstring)
 database = myclient["covid-19"]
 countries_collection = database["countries"]
+usa_collection = database["usa"]
+india_collection = database["india"]
 
 
 ##temp read, move to DB 
@@ -35,6 +37,145 @@ list_of_countries = df['Country_Region'].unique()
 greenland_to_country = np.array(['Greenland'])
 list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
 # list_of_countries = np.array(['Greenland'])
+
+
+
+##adding list of US States
+list_of_US_states = df[df['Country_Region']=='US']['Province_State'].unique()
+
+
+## Getting daily data state wise for US
+def get_daily_data_for_us_state(state, df, valid_date):
+    confirmed_cases = 0
+    death_cases = 0
+    recovered_cases = 0
+    active_cases = 0
+    try:
+        confirmed_cases = df[(df['Country/Region']=='US') & (df['Province/State']==state) ]['Confirmed'].sum()
+        death_cases = df[(df['Country/Region']=='US') & (df['Province/State']==state) ]['Deaths'].sum()
+        recovered_cases = df[(df['Country/Region']=='US') & (df['Province/State']==state) ]['Recovered'].sum()
+        print("Total number of confirmed cases in Province/State", state, ' on ', valid_date, ' was ', confirmed_cases)
+        print("Total number of deaths in Province/State", state, ' on ', valid_date, ' was ', death_cases)
+        print("Total number of recovered cases in Province/State", state, ' on ', valid_date, ' was ', recovered_cases)   
+        active_cases = confirmed_cases - (recovered_cases + death_cases)
+        if confirmed_cases >0:
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
+        else:
+            print('No cases found in Province/State ', state, ' on ', valid_date)
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
+    except:
+        confirmed_cases = df[(df['Country_Region']=='US') & (df['Province_State']==state) ]['Confirmed'].sum()
+        death_cases = df[(df['Country_Region']=='US') & (df['Province_State']==state) ]['Deaths'].sum()
+        recovered_cases = df[(df['Country_Region']=='US') & (df['Province_State']==state) ]['Recovered'].sum()
+        print("Total number of confirmed cases in Province_State", state, ' on ', valid_date, ' was ', confirmed_cases)
+        print("Total number of deaths in Province_State", state, ' on ', valid_date, ' was ', death_cases)
+        print("Total number of recovered cases in Province_State", state, ' on ', valid_date, ' was ', recovered_cases)   
+        active_cases = confirmed_cases - (recovered_cases + death_cases)
+        if confirmed_cases >0:
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
+        else:
+            print('No cases found in Province_State ', state, ' on ', valid_date)
+            return confirmed_cases, death_cases, recovered_cases, active_cases, valid_date
+        
+## Saving daily data state wise for US
+def add_data_for_us_state_to_db(state,incident_date, total_confirmed, delta_confirmed, total_deaths, delta_deaths, total_recovered, delta_recovered, total_active, delta_active):
+    if usa_collection.find({'name': state}).count() >0:
+        date_obj = {
+            "date": str(incident_date),
+            "confirmed": {"count": total_confirmed, "delta": delta_confirmed },
+            "deaths": {"count": total_deaths, "delta": delta_deaths},
+            "recovered": {"count": total_recovered, "delta": delta_recovered},
+            "active": {"count":total_active, "delta": delta_active},
+        }
+        usa_collection.update({'name': state}, {'$push': {'timeSeries': date_obj}}) 
+    else:
+        date_obj = [{
+        "date": str(incident_date),
+        "confirmed": {"count": total_confirmed, "delta": delta_confirmed },
+        "deaths": {"count": total_deaths, "delta": delta_deaths},
+        "recovered": {"count": total_recovered, "delta": delta_recovered},
+        "active": {"count":total_active, "delta": delta_active},
+        }]
+        datax =  {
+            "name": state,
+            "coordinates":
+            {
+                "lat": '0',
+                "long": '0'
+            },
+            "firstIncidentDate": incident_date,
+            "timeSeries":date_obj,
+            "lastUpdatedAt": "04-25-2020"
+        }
+        usa_collection.insert_one(datax)
+
+
+## Iterating daily files state wise for US
+def process_us_state_wise_data(from_date):
+
+    days_since_first_data = (today-from_date).days
+    date_iterator = from_date
+    first_case_found = False
+    previous_confirmed_count = 0;
+    previous_deaths_count = 0;
+    previous_recovered_count = 0;
+    previous_active_count = 0;
+    for state in list_of_US_states:
+        
+        for day in range(days_since_first_data):
+            date_iterator_month = str(date_iterator.month) if len(str(date_iterator.month)) > 1 else '0'+str(date_iterator.month)
+            date_iterator_day = str(date_iterator.day) if len(str(date_iterator.day)) > 1 else '0'+str(date_iterator.day)
+            date_iterator_year = str(date_iterator.year)
+            valid_date = date_iterator_month + '-' + date_iterator_day + '-' + date_iterator_year
+            valid_file_name = date_iterator_month + '-' + date_iterator_day + '-' + date_iterator_year +'.csv'
+            print(state,valid_date)
+
+            print(day," st day valid date is:",valid_file_name)
+            try:
+                df = pd.read_csv('../lab/data/'+valid_file_name)
+                df.fillna(0, axis=1,inplace=True)
+
+                total_confirmed, total_deaths, total_recovered, total_active, date_of_first_incident = get_daily_data_for_us_state(state,df,valid_date)
+                delta_confirmed = total_confirmed - previous_confirmed_count
+                delta_deaths = total_deaths - previous_deaths_count
+                delta_recovered = total_recovered - previous_recovered_count
+                delta_active = total_active - previous_active_count
+                print('delta confirmed is', delta_confirmed)
+                print('delta deaths is', delta_deaths)
+                print('delta recovered is', delta_recovered)
+                print('delta active is', delta_active)
+
+                previous_confirmed_count = total_confirmed
+                previous_deaths_count = total_deaths
+                previous_recovered_count = total_recovered
+                previous_active_count = total_active
+
+                if total_confirmed > 0:
+                    if first_case_found == False:
+                        print('Frist case for', state,  'on' , date_of_first_incident )
+                        add_data_for_us_state_to_db(state, date_of_first_incident, int(total_confirmed), int(delta_confirmed), int(total_deaths), int(delta_deaths), int(total_recovered), int(delta_recovered), int(total_active), int(delta_active))
+                        first_case_found = True
+                    else:
+                        print("case already found")
+                        add_data_for_us_state_to_db(state, valid_date, int(total_confirmed), int(delta_confirmed), int(total_deaths), int(delta_deaths), int(total_recovered), int(delta_recovered),int(total_active), int(delta_active))
+            except Exception as e:
+                print("============EXECEPTION OCCURRED")
+                print(e)
+                break
+
+
+            date_iterator = date_iterator + timedelta(days=1)
+        days_since_first_data = (today-from_date).days
+        date_iterator = from_date
+        first_case_found = False
+        previous_confirmed_count = 0
+        previous_deaths_count = 0
+        previous_recovered_count = 0
+
+
+
+
+
 ## Getting daily data country wise
 def get_daily_data_for_country(country, df, valid_date):
     confirmed_cases = 0
@@ -294,6 +435,37 @@ def process_world_data(from_date):
         date_iterator = date_iterator + timedelta(days=1)    
 
 
+def process_us_state_wise_data_for_date(for_date):
+    valid_date = for_date
+    valid_file_name = for_date+'.csv'
+    df = pd.read_csv('../lab/data/'+valid_file_name)
+    df.fillna(0, axis=1,inplace=True)
+    for state in list_of_countries:
+        total_confirmed, total_deaths, total_recovered, total_active, day_of_incidence = get_daily_data_for_state(state,df,valid_date)
+        print("=========confirmed",total_confirmed)
+        print("=========deaths",total_deaths)
+        print("=========recovered",total_recovered)
+        print("=========active",total_active)
+        print("=========date",day_of_incidence)
+        res_data = requests.get(API_URL+'/api/v0.1/analytics/count?scope=usa&source='+ state +'&duration=latest').json()
+        previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
+        previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
+        previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
+        previous_active_count = res_data[0]['timeSeries'][0]['active']['count']
+
+        delta_confirmed = total_confirmed - previous_confirmed_count
+        delta_deaths = total_deaths - previous_deaths_count
+        delta_recovered = total_recovered - previous_recovered_count
+        delta_active = total_active - previous_active_count
+        
+        print("delta",delta_confirmed,delta_deaths, delta_recovered, delta_active )
+        add_data_for_us_state_to_db(state, day_of_incidence, int(total_confirmed), int(delta_confirmed), int(total_deaths), int(delta_deaths), int(total_recovered), int(delta_recovered),int(total_active), int(delta_active))
+    return None
+
+
+
+
+
 
 def process_country_wise_data_for_date(for_date):
     valid_date = for_date
@@ -307,7 +479,7 @@ def process_country_wise_data_for_date(for_date):
         print("=========recovered",total_recovered)
         print("=========active",total_active)
         print("=========date",day_of_incidence)
-        res_data = requests.get(API_URL+'/api/v0.1/analytics/count?source='+ country +'&duration=latest').json()
+        res_data = requests.get(API_URL+'/api/v0.1/analytics/count?scope=world&source='+ country +'&duration=latest').json()
         previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
         previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
         previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
@@ -333,7 +505,7 @@ def process_world_data_for_date(for_date):
     print("=========deaths",total_deaths)
     print("=========recovered",total_recovered)
     print("=========active",total_active)
-    res_data = requests.get(API_URL+'/api/v0.1/analytics/count?source=World&duration=latest').json()
+    res_data = requests.get(API_URL+'/api/v0.1/analytics/count?scope=world&source=World&duration=latest').json()
     previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
     previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
     previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
@@ -364,10 +536,12 @@ def process(valid_date):
     if valid_date is None:
         process_country_wise_data(from_date=first_available_data_date)
         process_world_data(from_date=first_available_data_date)
+        process_us_state_wise_data(from_date=first_available_data_date)
         return jsonify({"Message" : "Crawler processed for" +first_available_data_date}), 200
     else:
         process_country_wise_data_for_date(for_date=valid_date)
         process_world_data_for_date(for_date=valid_date)
+        process_us_state_wise_data(from_date=valid_date)
         return jsonify({"Message" : "Crawler processed for " +valid_date}), 200
     
 
@@ -410,7 +584,7 @@ def crawl():
         print("valid date is", valid_date)
         hour_of_day= now_utc.hour
         print("hour of day is",hour_of_day )
-        if hour_of_day > 4:
+        if hour_of_day >= 4:
             print("hour of day is less than 4",hour_of_day)
             get_latest_csv(valid_date)
         else:
@@ -427,8 +601,9 @@ def crawl():
 @app.route("/process")
 @cross_origin()
 def process_all():
-    process_country_wise_data(from_date=first_available_data_date)
-    process_world_data(from_date=first_available_data_date)
+    #process_country_wise_data(from_date=first_available_data_date)
+    #process_world_data(from_date=first_available_data_date)
+    process_us_state_wise_data(from_date=first_available_data_date)
     return jsonify({"Message" : "Crawler processed for" +str(first_available_data_date)}), 200
 
 

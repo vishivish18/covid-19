@@ -1,10 +1,35 @@
-<div class="row">
-    <div class="col-md-7">
-        <div id="usamap"> 
-        </div>
+<div class="row" style="margin-top: 30px;">
+  <div class="col-md-6 col-xs-12">
+    <div id="usamap" style="position: fixed;">
     </div>
-    <div class="col-md-5" style="margin-top: 150px;">
-      <h3>USA State wise analysis in progress</h3>
+  </div>
+  <div class="col-md-6 col-xs-12" style="margin-top: 50px;">
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-md-5">
+        <p *ngIf="allData" class="faded-text">Last Updated At: 9:30 am IST | {{allData['US']['timeSeries'][0]['date']}}</p>
+      </div>
+      <div class="col-md-6">
+        {{selectedRegion}}
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md-3">
+        <app-count-card [color]="'blue'"  [cardTitle]="'Confirmed'" [totalCount]="confirmed" [deltaCount]="deltaConfirmed" ></app-count-card>
+      </div>
+      <div class="col-md-3">
+        <app-count-card [color]="'red'"  [cardTitle]="'Deaths'" [totalCount]="deaths" [deltaCount]="deltaDeaths"></app-count-card>
+      </div>
+      <div class="col-md-3">
+        <app-count-card [color]="'green'"  [cardTitle]="'Recovered'" [totalCount]="recovered" [deltaCount]="deltaRecovered" ></app-count-card>
+      </div>
+      <div class="col-md-3">
+        <app-count-card [color]="'orange'"  [cardTitle]="'Active'" [totalCount]="active" [deltaCount]="deltaActive"></app-count-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <app-data-table [flag]="'US'"  [allData]="allData" ></app-data-table>
+      </div>
+    </div>
+  </div>
 </div>
-  

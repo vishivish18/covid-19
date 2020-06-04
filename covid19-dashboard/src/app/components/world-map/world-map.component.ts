@@ -1,4 +1,4 @@
-import { Component,OnInit, HostListener } from '@angular/core';
+import { Component,OnInit, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { WORLD_MAP_PATH } from '../../constants.js';
 import * as d3 from 'd3';
 import * as topojson from 'topojson';
@@ -36,21 +36,21 @@ export class WorldMapComponent implements OnInit {
     this.resizeSvc.onResize$
       .pipe(delay(0))
       .subscribe(x => {
-        console.log('inside subscribe')
         this.size = x;
         this.innerWidth = window.innerWidth
         this.innerHeight = window.innerHeight      
       });
 
   }
+ 
   ngOnInit() {
     this.getAllCountryData()
     this.innerWidth = window.innerWidth
     this.innerHeight = window.innerHeight
-    console.log("CHANGED",this.innerWidth, this.innerHeight)
+    
   }
   async getAllCountryData() {
-    let obs = this.http.get(this.appRoot+'/api/v0.1/analytics/count?source=all&duration=latest')
+    let obs = this.http.get(this.appRoot+'/api/v0.1/analytics/count?scope=world&source=all&duration=latest')
     await obs.subscribe((res) => {
       this.allData = res
       this.getMapdata(WORLD_MAP_PATH)
@@ -148,53 +148,11 @@ export class WorldMapComponent implements OnInit {
     }
   }
 
-  // getHeatMapColor(value) {
-  //   switch (true) {
-  //     // Blue
-  //     case value >= 0 && value <= 6.25:
-  //       return '#cfe1f2'
-  //     case value > 6.25 && value <= 12.5:
-  //       return '#93c4de'
-  //     case value > 12.5 && value <= 18.75:
-  //       return '#4a97c9'
-  //     case value > 18.75 && value <= 25:
-  //       return '#1764ab'
-  //       // Green
-  //     case value > 25 && value <= 31.25:
-  //       return '#d3edcc'
-  //     case value > 31.25 && value <= 37.5:
-  //       return '#98d493'
-  //     case value > 37.5 && value <= 43.75:
-  //       return '#4bb061'
-  //     case value > 43.75 && value <= 50:
-  //       return '#157e3a'
-  //       //Orange
-  //     case value > 50 && value <= 56.25:
-  //       return '#FFBF00'
-  //     case value > 56.25 && value <= 62.5:
-  //       return '#F9A602'
-  //     case value > 62.5 && value <= 68.75:
-  //       return '#F9812A'
-  //     case value > 68.75 && value <= 75:
-  //       return '#FC6600'
-  //       //Red
-  //     case value > 75 && value <= 81.25:
-  //       return '#fcc9b4'
-  //     case value > 81.25 && value <= 87.5:
-  //       return '#fb8a6a'
-  //     case value > 87.5 && value <= 93.75:
-  //       return '#f14431'
-  //     case value > 93.75 && value <= 100:
-  //       return '#bb141a'
-  //     default:
-  //       return
-  //   }
-  // }
+ 
   normalizeValues(countryName, value, min, max) {
     let maxRange = 100
     let minRange = 1
     let newvalue = (maxRange - minRange) / (max - min) * (value - max) + maxRange
-    //console.log("Normalized for ",countryName, "is value ",newvalue )
     return this.getHeatMapColor(newvalue)
 
   }

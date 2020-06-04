@@ -46,7 +46,8 @@ export class SizeDetectorComponent implements AfterViewInit {
   private detectScreenSize() {
     const currentSize = this.sizes.find(x => {
       const el = this.elementRef.nativeElement.querySelector(`.${this.prefix}${x.id}`);
-      const isVisible = window.getComputedStyle(el).display != 'none';
+      // const isVisible = window.getComputedStyle(el).display != 'none';
+      const isVisible = true
 
       return isVisible;
     });

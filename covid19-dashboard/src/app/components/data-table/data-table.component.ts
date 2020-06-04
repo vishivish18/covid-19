@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 //TODO: Implement interface
 const ELEMENT_DATA = [];
@@ -9,31 +9,43 @@ const ELEMENT_DATA = [];
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss']
 })
-export class DataTableComponent implements OnInit {
+export class DataTableComponent implements OnInit, OnChanges {
   @Input()
-  allCountryData: Object
+  allData: Object = {}
 
+  @Input()
+  flag:String
 
-  ngOnInit() {
+  ngOnChanges(changes:SimpleChanges) {
+    console.log(changes)
+    console.log("ng on changes called",this.flag)
+    this.allData = changes['allData']['currentValue']
     this.parseAllData()
+    
+    
+  }
+  ngOnInit() {
+    this.allData = {}
+    
   }
   parseAllData () {
+    console.log("parsing for",this.flag)
     ELEMENT_DATA
     let indexOfArray = 1;
-    for(let key in this.allCountryData){
-      if(this.allCountryData.hasOwnProperty(key)){
-        if(this.allCountryData[key]['name'] !== 'World'){
+    for(let key in this.allData){
+      if(this.allData.hasOwnProperty(key)){
+        if(this.allData[key]['name'] !== this.flag ){
         let countryObj = {}
         countryObj['position'] = indexOfArray;
-        countryObj['country'] = this.allCountryData[key]['name']
-        countryObj['confirmed'] = this.allCountryData[key]['timeSeries']['confirmed']['count']
-        countryObj['deltaConfirmed'] = this.allCountryData[key]['timeSeries']['confirmed']['delta']
-        countryObj['deaths'] = this.allCountryData[key]['timeSeries']['deaths']['count']
-        countryObj['deltaDeaths'] = this.allCountryData[key]['timeSeries']['deaths']['delta']
-        countryObj['recovered'] = this.allCountryData[key]['timeSeries']['recovered']['count']
-        countryObj['deltaRecovered'] = this.allCountryData[key]['timeSeries']['recovered']['delta']
-        countryObj['active'] = this.allCountryData[key]['timeSeries']['active']['count']
-        countryObj['deltaActive'] = this.allCountryData[key]['timeSeries']['active']['delta']
+        countryObj['country'] = this.allData[key]['name']
+        countryObj['confirmed'] = this.allData[key]['timeSeries']['confirmed']['count']
+        countryObj['deltaConfirmed'] = this.allData[key]['timeSeries']['confirmed']['delta']
+        countryObj['deaths'] = this.allData[key]['timeSeries']['deaths']['count']
+        countryObj['deltaDeaths'] = this.allData[key]['timeSeries']['deaths']['delta']
+        countryObj['recovered'] = this.allData[key]['timeSeries']['recovered']['count']
+        countryObj['deltaRecovered'] = this.allData[key]['timeSeries']['recovered']['delta']
+        countryObj['active'] = this.allData[key]['timeSeries']['active']['count']
+        countryObj['deltaActive'] = this.allData[key]['timeSeries']['active']['delta']
         ELEMENT_DATA.push(countryObj)
         indexOfArray ++
         }
