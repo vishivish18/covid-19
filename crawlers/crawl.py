@@ -134,10 +134,17 @@ def process_us_state_wise_data(from_date):
             valid_date = date_iterator_month + '-' + date_iterator_day + '-' + date_iterator_year
             valid_file_name = date_iterator_month + '-' + date_iterator_day + '-' + date_iterator_year +'.csv'
             print(state,valid_date)
+            valid_date_object = date(int(date_iterator_year), int(date_iterator_month), int(date_iterator_day))
 
             print(day," st day valid date is:",valid_file_name)
             try:
-                df = pd.read_csv('../lab/data/us/'+valid_file_name)
+                if valid_date_object < first_available_us_data_date:
+                    print("day is", valid_date, " getting normal data")
+                    df = pd.read_csv('../lab/data/'+valid_file_name)
+                else:
+                    print("day is", valid_date, " getting US data")
+                    df = pd.read_csv('../lab/data/us/'+valid_file_name)
+                
                 df.fillna(0, axis=1,inplace=True)
 
                 total_confirmed, total_deaths, total_recovered, total_active, date_of_first_incident = get_daily_data_for_us_state(state,df,valid_date)
@@ -443,9 +450,9 @@ def process_world_data(from_date):
 def process_us_state_wise_data_for_date(for_date):
     valid_date = for_date
     valid_file_name = for_date+'.csv'
-    df = pd.read_csv('../lab/data/'+valid_file_name)
+    df = pd.read_csv('../lab/data/us/'+valid_file_name)
     df.fillna(0, axis=1,inplace=True)
-    for state in list_of_countries:
+    for state in list_of_US_states:
         total_confirmed, total_deaths, total_recovered, total_active, day_of_incidence = get_daily_data_for_us_state(state,df,valid_date)
         print("=========confirmed",total_confirmed)
         print("=========deaths",total_deaths)
@@ -614,7 +621,7 @@ def crawl():
 def process_all():
     process_country_wise_data(from_date=first_available_data_date)
     process_world_data(from_date=first_available_data_date)
-    process_us_state_wise_data(from_date=first_available_us_data_date)
+    process_us_state_wise_data(from_date=first_available_data_date)
     return jsonify({"Message" : "Crawler processed for" +str(first_available_data_date)}), 200
 
 
