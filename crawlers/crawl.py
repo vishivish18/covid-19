@@ -46,7 +46,9 @@ list_of_countries = np.concatenate((list_of_countries, greenland_to_country))
 base_us_df = pd.read_csv('../lab/data/us/05-15-2020.csv')
 
 list_of_US_states = base_us_df[base_us_df['Country_Region']=='US']['Province_State'].unique()
-#list_of_US_states = ['Alaska']
+list_of_US_states = list(list_of_US_states)
+list_of_US_states.remove('American Samoa')
+#list_of_US_states = ['Virgin Islands']
 
 
 ## Getting daily data state wise for US
