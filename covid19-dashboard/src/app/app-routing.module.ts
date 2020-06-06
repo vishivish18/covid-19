@@ -8,6 +8,7 @@ import { WorldMapComponent } from './components/world-map/world-map.component'
 import { UsaMapComponent } from './components/usa-map/usa-map.component'
 import { WhoComponent } from './components/who/who.component'
 import { PredictionsAnalysisComponent } from './components/predictions-analysis/predictions-analysis.component'
+import { AboutComponent } from './components/about/about.component'
 const routes: Routes = [
   { path: '', redirectTo: '/world', pathMatch: 'full' },
   { path: 'india', component: CountryMapComponent, children: [
@@ -20,7 +21,8 @@ const routes: Routes = [
     { path: 'card', component: CountCardComponent }
   ] },
   { path: 'who', component: WhoComponent},
-  { path: 'predictions-and-analysis', component: PredictionsAnalysisComponent}
+  { path: 'predictions-and-analysis', component: PredictionsAnalysisComponent},
+  { path: 'about', component: AboutComponent}
 ];
 
 @NgModule({
