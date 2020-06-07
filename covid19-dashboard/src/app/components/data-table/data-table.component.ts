@@ -56,6 +56,9 @@ export class DataTableComponent implements OnInit {
     }else if(this.flag == 'US') {
       this.name = 'State/Other'
     }
+    else if(this.flag == 'India') {
+      this.name = 'State/Other'
+    }
     this.displayedColumns= ['position','name', 'confirmed', 'deaths','recovered','active'];
     this.dataSource = ELEMENT_DATA;
   }

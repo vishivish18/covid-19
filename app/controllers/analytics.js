@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const baseController = require('./baseController');
 const countryModel = require('../models/country');
 const stateModel = require('../models/state');
+const indiaModel = require('../models/india');
 
 class analyticsContorller extends baseController {
   constructor(...args) {
@@ -76,7 +77,35 @@ class analyticsContorller extends baseController {
         })
       }
 
+    }else if (scope == 'india') {
+      if (source == 'all') {
+        criteria = {"name": "India"}
+        columns = {timeSeries: {$slice: -1}}
+        indiaModel.getAggregateResult().then((result) => {
+          var newObj = {}
+          result.forEach((data)=>{
+            newObj[data['name']]= data
+          })
+          countryModel.get(criteria, columns).then((result) => {
+            var india_data = result[0]
+            newObj['India'] = india_data
+            res.json(newObj)
+          })
+          
+        })
+      } else {
+        if (duration == 'latest') {
+          // criteria = {"name": new RegExp(`^${source}$`, 'i')}
+          criteria = {"name": source}
+          columns = {timeSeries: {$slice: -1}}
+        }
+        indiaModel.get(criteria, columns).then((result) => {
+          res.json(result)
+        })
+      }
+
     }
+
   }
 }
 
