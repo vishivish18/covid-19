@@ -234,10 +234,10 @@ export class WorldMapComponent implements OnInit {
         if (countryName) {
           if (that.allData[countryName]) {
             var confirmedForCountry = that.allData[countryName]['timeSeries']['confirmed']['count']
-            // let hsl = that.normalizeValues(countryName,confirmedForCountry, 0, 200000)
+            // let hsl = that.normalizeValues(countryName,confirmedForCountry, 0, 280000)
             // //console.log(hsl)
             // return d3.hsl(hsl.h, hsl.s, hsl.l)
-            let colorCode = that.normalizeValues( countryName, confirmedForCountry, 0, 2000000)
+            let colorCode = that.normalizeValues( countryName, confirmedForCountry, 0, 2400000)
             return colorCode
           } else {
             //console.log("prinint yellow",d)
