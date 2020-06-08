@@ -10,6 +10,7 @@ from flask_cors import CORS, cross_origin
 from datetime import date, datetime,timezone, timedelta
 import numpy as np
 from config import DB_URL, API_URL
+import crawl_india as crawl_india
 
 
 app = Flask(__name__)
@@ -562,6 +563,7 @@ def process(valid_date):
         process_country_wise_data_for_date(for_date=valid_date)
         process_world_data_for_date(for_date=valid_date)
         process_us_state_wise_data_for_date(for_date=valid_date)
+        crawl_india.process_india_state_wise_data_for_date(india_collection, valid_date_from_crawler=valid_date)
         return jsonify({"Message" : "Crawler processed for " +valid_date}), 200
     
 
@@ -631,6 +633,7 @@ def process_all():
         process_country_wise_data(from_date=first_available_data_date)
         process_world_data(from_date=first_available_data_date)
         process_us_state_wise_data(from_date=first_available_data_date)
+        crawl_india.process_india_state_wise_data(india_collection)
         return jsonify({"Message" : "Crawler processed for" +str(first_available_data_date)}), 200
     else:
         return jsonify({"Secret NOT VALID" : secret}), 200
