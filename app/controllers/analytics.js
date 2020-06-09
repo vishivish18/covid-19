@@ -45,6 +45,9 @@ class analyticsContorller extends baseController {
           // criteria = {"name": new RegExp(`^${source}$`, 'i')}
           criteria = {"name": source}
           columns = {timeSeries: {$slice: -1}}
+        } else if(duration == 'all'){
+          criteria = {"name": source}
+          columns = {}
         }
         countryModel.get(criteria, columns).then((result) => {
           res.json(result)
@@ -71,6 +74,9 @@ class analyticsContorller extends baseController {
           // criteria = {"name": new RegExp(`^${source}$`, 'i')}
           criteria = {"name": source}
           columns = {timeSeries: {$slice: -1}}
+        } else if(duration == 'all'){
+          criteria = {"name": source}
+          columns = {}
         }
         stateModel.get(criteria, columns).then((result) => {
           res.json(result)
@@ -98,6 +104,9 @@ class analyticsContorller extends baseController {
           // criteria = {"name": new RegExp(`^${source}$`, 'i')}
           criteria = {"name": source}
           columns = {timeSeries: {$slice: -1}}
+        }else if(duration == 'all'){
+          criteria = {"name": source}
+          columns = {}
         }
         indiaModel.get(criteria, columns).then((result) => {
           res.json(result)

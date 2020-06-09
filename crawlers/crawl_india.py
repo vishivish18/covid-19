@@ -95,6 +95,7 @@ def process_india_state_wise_data_for_date(india_collection, valid_date_from_cra
     response = r.json() 
     valid_date = convert_date_to_respone_format(valid_date_from_crawler)
     print("valid date is", valid_date)
+    print("date to save is", valid_date_from_crawler)
     for state_code, state_name in STATE_CODES.items():
         #print(state_code,state_name)
         state_code = state_code.lower()
@@ -114,14 +115,14 @@ def process_india_state_wise_data_for_date(india_collection, valid_date_from_cra
                 if data['date'] == valid_date and data['status'] =='Deceased':
                     deaths = int(data[state_code])
                     active = confirmed - (recovered + deaths)
-                    print("IN " ,state_name ," On ", valid_date, " stats was, confirmed: ",confirmed, "deaths: ", deaths, " and recovered: ", recovered)
+                    print("IN " ,state_name ," On ", valid_date_from_crawler, " stats was, confirmed: ",confirmed, "deaths: ", deaths, " and recovered: ", recovered)
                     total_confirmed = previous_confirmed_count + confirmed  
                     total_deaths = previous_deaths_count + deaths  
                     total_recovered = previous_recovered_count + recovered
                     total_active = total_confirmed - (total_recovered + total_deaths)
 
-                    print("FINAL COUNT for ",state_name ," on" ,valid_date, "total confirmed:", total_confirmed, " total deaths:", total_deaths, " and total recovered:", total_recovered)
-                    add_data_for_state_india(india_collection, state_name,state_code, valid_date, total_confirmed, confirmed, total_deaths, deaths, total_recovered, recovered, total_active, active)
+                    print("FINAL COUNT for ",state_name ," on" ,valid_date_from_crawler, "total confirmed:", total_confirmed, " total deaths:", total_deaths, " and total recovered:", total_recovered)
+                    add_data_for_state_india(india_collection, state_name,state_code, valid_date_from_crawler, total_confirmed, confirmed, total_deaths, deaths, total_recovered, recovered, total_active, active)
 
             counter =0
     

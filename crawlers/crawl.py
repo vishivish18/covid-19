@@ -639,6 +639,12 @@ def process_all():
         return jsonify({"Secret NOT VALID" : secret}), 200
 
 
+# @app.route("/temp")
+# @cross_origin()
+# def temp():
+#     crawl_india.process_india_state_wise_data_for_date(india_collection, valid_date_from_crawler='06-08-2020')
+#     return jsonify({"Done for date":"Success"}), 200
+
 app.run(host="0.0.0.0",debug=True,port=8000)
 
 
