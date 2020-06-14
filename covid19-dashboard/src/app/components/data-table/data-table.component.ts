@@ -29,7 +29,6 @@ export class DataTableComponent implements OnInit {
     this.parseAllData()
   }
   parseAllData () {
-    console.log("parsing for",this.flag)
     let ELEMENT_DATA = []
     let indexOfArray = 1;
     for(let key in this.allData){

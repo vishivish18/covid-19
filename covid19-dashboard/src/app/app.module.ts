@@ -15,7 +15,10 @@ import { WhoComponent } from './components/who/who.component';
 import { PredictionsAnalysisComponent } from './components/predictions-analysis/predictions-analysis.component'  
 import { SizeDetectorComponent } from './components/size-detector/size-detector.component'
 import { ResizeService } from './components/size-detector/resize.service';
-import { AboutComponent } from './components/about/about.component'
+import { AboutComponent } from './components/about/about.component';
+import { LineChartComponent } from './components/line-chart/line-chart.component'
+import { ChartsModule } from 'ng2-charts';
+
 
 
 
@@ -31,14 +34,16 @@ import { AboutComponent } from './components/about/about.component'
     WhoComponent,
     PredictionsAnalysisComponent,
     SizeDetectorComponent,
-    AboutComponent
+    AboutComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    ChartsModule
   ],
   providers: [ResizeService],
   bootstrap: [AppComponent]
