@@ -35,6 +35,7 @@ export class DataTableComponent implements OnInit {
       if(this.allData.hasOwnProperty(key)){
         if(this.allData[key]['name'] !== this.flag ){
         let rowObj = {}
+        rowObj['slug'] = this.allData[key]['slug'];
         rowObj['position'] = indexOfArray;
         rowObj['country'] = this.allData[key]['name']
         rowObj['confirmed'] = this.allData[key]['timeSeries']['confirmed']['count']

@@ -1,6 +1,6 @@
 <div class="row" style="margin-top: 30px;">
-   <div style="display: block;">
-    <canvas baseChart width="1600" height="800"
+   <div style="display: block;" *ngIf="allData">
+    <canvas baseChart [ngStyle]="{'width.px': graphWidth, 'height.px': graphHeight}"
     [datasets]="lineChartData"
     [labels]="lineChartLabels"
     [options]="lineChartOptions"

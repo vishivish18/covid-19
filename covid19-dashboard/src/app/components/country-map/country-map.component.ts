@@ -233,7 +233,7 @@ projection.fitSize([height-350, width-350], topology);
                   // let hsl = that.normalizeValues(stateName,confirmedForCountry, 0, 200000)
                   // //console.log(hsl)
                   // return d3.hsl(hsl.h, hsl.s, hsl.l)
-                  let colorCode = that.normalizeValues( stateName, confirmedForState, 0, 100000)
+                  let colorCode = that.normalizeValues( stateName, confirmedForState, 0, 200000)
                   return colorCode
                 } else {
                   return 'yellow'

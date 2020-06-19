@@ -24,8 +24,11 @@ CountrySchema.statics = {
       return await this.find(criteria, columns)
     }
   },
+  addNewColumn: async function () {
+    return this.find({},{"name":1})
+  },
   getAggregateResult: function(criteria) {
-    return this.aggregate([{$project:{name: 1,timeSeries: { $arrayElemAt: [ "$timeSeries", -1 ] }}},{$sort:{"timeSeries.confirmed.count":-1}}])
+    return this.aggregate([{$project:{name: 1,slug:1, timeSeries: { $arrayElemAt: [ "$timeSeries", -1 ] }}},{$sort:{"timeSeries.confirmed.count":-1}}])
       //.allowDiskUse(true)
       //.exec();
   },

@@ -9,24 +9,24 @@
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> {{name}} </th>
-    <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+    <td mat-cell *matCellDef="let element"><a [routerLink]="['/world', element.slug]">{{element.country}} </a></td>
   </ng-container>
   <!-- Weight Column -->
   <ng-container matColumnDef="confirmed">
     <th mat-header-cell *matHeaderCellDef> Confirmed </th>
-    <td mat-cell *matCellDef="let element"> {{element.confirmed}} <small>+{{element.deltaConfirmed}}</small> </td>
+    <td mat-cell *matCellDef="let element"><span class="value-count">{{element.confirmed}} </span> <small class="delta-confirmed">+{{element.deltaConfirmed}}</small> </td>
   </ng-container>
   <ng-container matColumnDef="deaths">
     <th mat-header-cell *matHeaderCellDef> Deaths </th>
-    <td mat-cell *matCellDef="let element"> {{element.deaths}} <small>+{{element.deltaDeaths}}</small>  </td>
+    <td mat-cell *matCellDef="let element"><span class="value-count">{{element.deaths}} </span> <small class="delta-deaths">+{{element.deltaDeaths}}</small>  </td>
   </ng-container>
   <ng-container matColumnDef="recovered">
     <th mat-header-cell *matHeaderCellDef> Recovered </th>
-    <td mat-cell *matCellDef="let element"> {{element.recovered}} </td>
+    <td mat-cell *matCellDef="let element"><span class="value-count">{{element.recovered}}</span>  </td>
   </ng-container>
   <ng-container matColumnDef="active">
     <th mat-header-cell *matHeaderCellDef> Active </th>
-    <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+    <td mat-cell *matCellDef="let element"><span class="value-count">{{element.active}}</span>  </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

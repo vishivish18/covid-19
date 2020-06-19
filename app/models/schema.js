@@ -9,6 +9,14 @@ const schemas = {
             required: true,
             unique: true
         },
+        code:{
+            type: String,
+            unique: true
+        },
+        slug: {
+            type: String,
+            unique: true
+        },
         coordinates: {
             lat: String,
             long: String

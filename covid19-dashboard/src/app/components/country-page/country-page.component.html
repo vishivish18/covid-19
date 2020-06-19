@@ -1,0 +1,23 @@
+<div class="row" style="margin:100px;">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="offset-4">
+          <h1>{{countrySlug}}</h1>
+      <img height="50" src="https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/ad.png"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <app-count-card [color]="'blue'"  [cardTitle]="'Confirmed'" [totalCount]="2000" [deltaCount]="2000" ></app-count-card>
+        </div>
+        <div class="col-md-3">
+          <app-count-card [color]="'red'"  [cardTitle]="'Deaths'" [totalCount]="2000" [deltaCount]="2000"></app-count-card>
+        </div>
+        <div class="col-md-3">
+          <app-count-card [color]="'green'"  [cardTitle]="'Recovered'" [totalCount]="2000" [deltaCount]="2000" ></app-count-card>
+        </div>
+        <div class="col-md-3">
+          <app-count-card [color]="'orange'"  [cardTitle]="'Active'" [totalCount]="2000" [deltaCount]="2000"></app-count-card>
+        </div>
+      </div>
+</div>

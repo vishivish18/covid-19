@@ -9,6 +9,10 @@ const schemas = {
             required: true,
             unique: true
         },
+        slug: {
+            type: String,
+            unique: true
+        },
         coordinates: {
             lat: String,
             long: String

@@ -35,3 +35,17 @@ tr:nth-child(odd) {
   font-weight: 500;
 }
 
+a {
+  text-decoration: underline;
+  font-weight: 700;
+  color:black;
+}
+.value-count {
+  font-weight: 400;
+}
+.delta-confirmed {
+  color:blue;
+}
+.delta-deaths {
+  color:red;
+}

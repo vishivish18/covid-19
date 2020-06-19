@@ -18,6 +18,8 @@ import { ResizeService } from './components/size-detector/resize.service';
 import { AboutComponent } from './components/about/about.component';
 import { LineChartComponent } from './components/line-chart/line-chart.component'
 import { ChartsModule } from 'ng2-charts';
+import { BarChartComponent } from './components/bar-chart/bar-chart.component';
+import { CountryPageComponent } from './components/country-page/country-page.component';
 
 
 
@@ -35,7 +37,9 @@ import { ChartsModule } from 'ng2-charts';
     PredictionsAnalysisComponent,
     SizeDetectorComponent,
     AboutComponent,
-    LineChartComponent
+    LineChartComponent,
+    BarChartComponent,
+    CountryPageComponent
   ],
   imports: [
     BrowserModule,
