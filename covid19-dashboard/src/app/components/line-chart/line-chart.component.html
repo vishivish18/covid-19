@@ -1,14 +1,11 @@
-<div class="row" style="margin-top: 30px;">
-   <div style="display: block;" *ngIf="allData">
-    <canvas baseChart [ngStyle]="{'width.px': graphWidth, 'height.px': graphHeight}"
-    [datasets]="lineChartData"
-    [labels]="lineChartLabels"
-    [options]="lineChartOptions"
-    [colors]="lineChartColors"
-    [legend]="lineChartLegend"
-    [chartType]="lineChartType"
-    (chartHover)="chartHovered($event)"
-    (chartClick)="chartClicked($event)"></canvas>
-          
-   </div>
+<div style="display: block">
+   <canvas baseChart 
+      [datasets]="lineChartData" 
+      [labels]="lineChartLabels" 
+      [options]="lineChartOptions"
+      [colors]="lineChartColors" 
+      [legend]="lineChartLegend" 
+      [chartType]="lineChartType"
+      (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+   </canvas>
 </div>

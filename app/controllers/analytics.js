@@ -24,6 +24,20 @@ class analyticsContorller extends baseController {
     }
     countryModel.saveRecord(data, false)
   }
+  rename(req, res) {
+    indiaModel.addNewColumn().then((result)=>{
+      result.forEach((state)=>{
+        let slugForState = state['name'].replace(/\s+/g, '-').replace(/[() *]/ig, "").toLowerCase()
+        indiaModel.updateOne({"name":state['name']},{"$set": {"slug" : slugForState}},{new: true}).exec((err,result)=>{
+          if(err){
+            console.log(err)
+          }else {
+            console.log(result)
+          }
+        })
+      }) 
+    })
+  }
   get(req, res) {
     let source = decodeURIComponent(req.query.source)
     let duration = req.query.duration
@@ -44,7 +58,7 @@ class analyticsContorller extends baseController {
         if (duration == 'latest') {
           // criteria = {"name": new RegExp(`^${source}$`, 'i')}
           criteria = {"slug": source}
-          columns = {timeSeries: {$slice: -1}, slug: 1, code:1}
+          columns = {timeSeries: {$slice: -1}, slug: 1, code:1, name: 1}
         } else if(duration == 'all'){
           criteria = {"slug": source}
           columns = {}
@@ -56,7 +70,7 @@ class analyticsContorller extends baseController {
     } else if (scope == 'usa') {
       if (source == 'all') {
         criteria = {"slug": "united-states-of-america"}
-        columns = {timeSeries: {$slice: -1}}
+        columns = {timeSeries: {$slice: -1},slug:1, name: 1}
         stateModel.getAggregateResult().then((result) => {
           var newObj = {}
           result.forEach((data)=>{
@@ -73,7 +87,7 @@ class analyticsContorller extends baseController {
         if (duration == 'latest') {
           // criteria = {"name": new RegExp(`^${source}$`, 'i')}
           criteria = {"slug": source}
-          columns = {timeSeries: {$slice: -1}}
+          columns = {timeSeries: {$slice: -1},slug:1, name: 1 }
         } else if(duration == 'all'){
           criteria = {"slug": source}
           columns = {}
@@ -86,7 +100,7 @@ class analyticsContorller extends baseController {
     }else if (scope == 'india') {
       if (source == 'all') {
         criteria = {"slug": "india"}
-        columns = {timeSeries: {$slice: -1}}
+        columns = {timeSeries: {$slice: -1}, slug:1, name: 1}
         indiaModel.getAggregateResult().then((result) => {
           var newObj = {}
           result.forEach((data)=>{
@@ -102,10 +116,10 @@ class analyticsContorller extends baseController {
       } else {
         if (duration == 'latest') {
           // criteria = {"name": new RegExp(`^${source}$`, 'i')}
-          criteria = {"name": source}
-          columns = {timeSeries: {$slice: -1}}
+          criteria = {"slug": source}
+          columns = {timeSeries: {$slice: -1}, slug:1, name: 1}
         }else if(duration == 'all'){
-          criteria = {"name": source}
+          criteria = {"slug": source}
           columns = {}
         }
         indiaModel.get(criteria, columns).then((result) => {

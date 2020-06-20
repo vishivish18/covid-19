@@ -34,3 +34,20 @@ svg {
     color: grey;
     font-size: 10px;
 }
+
+.box {
+    display: flex;
+    align-items:center;
+    padding: 20px;
+ }
+ .country-flag{
+     border: 1px solid black;
+ }
+ .country-name {
+     font-weight: 300;
+     padding-left: 10px;
+ }
+
+ .small-text {
+     font-size: 8px;
+ }

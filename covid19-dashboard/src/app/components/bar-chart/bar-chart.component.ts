@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,12 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./bar-chart.component.scss'],
 })
 export class BarChartComponent implements OnInit {
+  @Input()
+  source: String
+
+  @Input()
+  type: String
+
   appRoot = environment.appRoot;
   allData: Object
   timeSeries
@@ -36,21 +42,39 @@ export class BarChartComponent implements OnInit {
 
 
   async getTimeSeriesData() {
-    let obs = this.http.get(this.appRoot+'/api/v0.1/analytics/count?scope=world&source=US&duration=all')
+    let obs = this.http.get(this.appRoot+'/api/v0.1/analytics/count?scope=world&source='+this.source+'&duration=all')
     await obs.subscribe((res) => {
       this.allData = res[0]
       this.timeSeries = this.allData['timeSeries']
       this.timeSeries.forEach(element => {
         element['date'] = new Date(element['date']).toLocaleDateString()
-        this.inputObject[element['date']] = element['confirmed']['delta']
+        if(this.type == 'Confirmed') {
+          this.inputObject[element['date']] = element['confirmed']['delta']
+          this.chartColors[0].backgroundColor ='blue'
+        }else if(this.type == 'Deaths') {
+          this.inputObject[element['date']] = element['deaths']['delta']
+          this.chartColors[0].backgroundColor ='red'
+        }else if(this.type == 'Recovered') {
+          this.inputObject[element['date']] = element['recovered']['delta']
+          this.chartColors[0].backgroundColor ='green'
+        }else if(this.type == 'Active') {
+          this.inputObject[element['date']] = element['active']['delta']
+          this.chartColors[0].backgroundColor ='orange'
+        }
       });
-      //console.log(this.inputObject)
-      //console.log(Object.values(this.inputObject))
+      
       this.barChartData[0].data =Object.values(this.inputObject)
       this.barChartLabels = Object.keys(this.inputObject)
     })
   }
   public barChartOptions: ChartOptions = {
+    legend: {
+      position: 'top',
+      labels: {
+        fontSize: 10,
+        usePointStyle:true
+      }
+    },
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
     scales: { xAxes: [{}], yAxes: [{}] },
@@ -77,17 +101,15 @@ export class BarChartComponent implements OnInit {
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
+  public chartColors: Array<any> = [
+    { // first color
+      backgroundColor: 'white',
+      borderColor: 'rgba(225,10,24,0.2)',
+      pointBackgroundColor: 'rgba(225,10,24,0.2)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+    }];
 
-  public randomize(): void {
-    // Only Change 3 values
-    const data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      (Math.random() * 100),
-      56,
-      (Math.random() * 100),
-      40];
-    this.barChartData[0].data = data;
-  }
+
 }

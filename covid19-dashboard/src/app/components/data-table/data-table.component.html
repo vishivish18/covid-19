@@ -9,7 +9,10 @@
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> {{name}} </th>
-    <td mat-cell *matCellDef="let element"><a [routerLink]="['/world', element.slug]">{{element.country}} </a></td>
+    <td  mat-cell *matCellDef="let element">
+      <a *ngIf="styleHyperlink" [routerLink]="['/world', element.slug]">{{element.country}} </a>
+      <span *ngIf="!styleHyperlink" class="hyperlink" >{{element.country}} </span>
+    </td>
   </ng-container>
   <!-- Weight Column -->
   <ng-container matColumnDef="confirmed">

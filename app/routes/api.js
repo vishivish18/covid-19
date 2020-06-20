@@ -8,6 +8,7 @@ apiRoutes = (router) => {
     router.get('/test',(req,res)=>{res.send('hello')})
     //router.get('/analytics',api.analytics.save)
     router.get('/analytics/count',api.analytics.get)
+    router.get('/temp',api.analytics.rename)
     return router;
 };
 

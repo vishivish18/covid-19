@@ -52,6 +52,46 @@ const schemas = {
             default: 'N/A'
         }
 
+    },
+    states: {
+        name: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        slug: {
+            type: String,
+            unique: true
+        },
+        coordinates: {
+            lat: String,
+            long: String
+        },
+        firstIncidentDate: {
+            type: Date
+        },
+        timeSeries: [{
+            date: Date,
+            confirmed: {
+                count: Number,
+                delta: Number
+            },
+            deaths: {
+                count: Number,
+                delta: Number
+            },
+            recovered: {
+                count: Number,
+                delta: Number
+            },
+            active: {
+                count: Number,
+                delta: Number
+            },
+        }],
+        lastUpdatedAt: {
+            type: Date
+        }
     }
 };
 

@@ -13,7 +13,7 @@ export class DataTableComponent implements OnInit {
   @Input()
   allData: Object = {}
   
-  
+  styleHyperlink: Boolean = false;
   dataSource
   displayedColumns
   name
@@ -53,6 +53,7 @@ export class DataTableComponent implements OnInit {
     }
     if(this.flag == 'World') {
       this.name = 'Country'
+      this.styleHyperlink = true
     }else if(this.flag == 'US') {
       this.name = 'State/Other'
     }

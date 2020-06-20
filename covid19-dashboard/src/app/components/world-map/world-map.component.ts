@@ -18,6 +18,7 @@ import { DataService } from 'src/app/services/data.service.js';
 })
 export class WorldMapComponent implements OnInit {
   selectedRegion = 'World'
+  selectedRegionCode: String
   allData: Object
   confirmed: Number
   deltaConfirmed: Number
@@ -169,6 +170,7 @@ export class WorldMapComponent implements OnInit {
     this.deltaRecovered = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['recovered']['delta'] : 'N/A'
     this.active = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['active']['count'] : 'N/A'
     this.deltaActive = this.allData[this.selectedRegion] ? this.allData[this.selectedRegion]['timeSeries']['active']['delta'] : 'N/A'
+    this.selectedRegionCode = this.allData[this.selectedRegion]['code']
   }
 
   selectWorld() {
@@ -237,11 +239,11 @@ export class WorldMapComponent implements OnInit {
             // let hsl = that.normalizeValues(countryName,confirmedForCountry, 0, 280000)
             // //console.log(hsl)
             // return d3.hsl(hsl.h, hsl.s, hsl.l)
-            let colorCode = that.normalizeValues( countryName, confirmedForCountry, 0, 2400000)
+            let colorCode = that.normalizeValues( countryName, confirmedForCountry, 0, 2600000)
             return colorCode
           } else {
             //console.log("prinint yellow",d)
-            return 'yellow'
+            return '#f8f8ff'
           }
         }
       })
