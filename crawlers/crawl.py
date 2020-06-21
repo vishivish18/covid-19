@@ -462,7 +462,7 @@ def process_us_state_wise_data_for_date(for_date):
         print("=========recovered",total_recovered)
         print("=========active",total_active)
         print("=========date",day_of_incidence)
-        res_data = requests.get(API_URL+'/api/v0.1/analytics/count?scope=usa&source='+ state +'&duration=latest').json()
+        res_data = requests.get(API_URL+'/api/v0.1/analytics/count/name?scope=usa&source='+ state +'&duration=latest').json()
         previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
         previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
         previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
@@ -494,7 +494,7 @@ def process_country_wise_data_for_date(for_date):
         print("=========recovered",total_recovered)
         print("=========active",total_active)
         print("=========date",day_of_incidence)
-        res_data = requests.get(API_URL+'/api/v0.1/analytics/count?scope=world&source='+ country +'&duration=latest').json()
+        res_data = requests.get(API_URL+'/api/v0.1/analytics/count/name?scope=world&source='+ country +'&duration=latest').json()
         previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
         previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
         previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
@@ -520,7 +520,7 @@ def process_world_data_for_date(for_date):
     print("=========deaths",total_deaths)
     print("=========recovered",total_recovered)
     print("=========active",total_active)
-    res_data = requests.get(API_URL+'/api/v0.1/analytics/count?scope=world&source=World&duration=latest').json()
+    res_data = requests.get(API_URL+'/api/v0.1/analytics/count/name?scope=world&source=World&duration=latest').json()
     previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
     previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
     previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']

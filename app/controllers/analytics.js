@@ -130,7 +130,100 @@ class analyticsContorller extends baseController {
     }
 
   }
+  getByName(req, res) {
+    let source = decodeURIComponent(req.query.source)
+    let duration = req.query.duration
+    let scope = req.query.scope
+    let criteria = {}
+    let columns = {}
+    if(scope == 'world') {
+      if (source == 'all') {
+        columns = {timeSeries: {$slice: -1}}
+        countryModel.getAggregateResult().then((result) => {
+          var newObj = {}
+          result.forEach((data)=>{
+            newObj[data['name']]= data
+          })
+          res.json(newObj)
+        })
+      } else {
+        if (duration == 'latest') {
+          // criteria = {"name": new RegExp(`^${source}$`, 'i')}
+          criteria = {"name": source}
+          columns = {timeSeries: {$slice: -1}, slug: 1, code:1, name: 1}
+        } else if(duration == 'all'){
+          criteria = {"name": source}
+          columns = {}
+        }
+        countryModel.get(criteria, columns).then((result) => {
+          res.json(result)
+        })
+      }
+    } else if (scope == 'usa') {
+      if (source == 'all') {
+        criteria = {"name": "US"}
+        columns = {timeSeries: {$slice: -1},slug:1, name: 1}
+        stateModel.getAggregateResult().then((result) => {
+          var newObj = {}
+          result.forEach((data)=>{
+            newObj[data['name']]= data
+          })
+          countryModel.get(criteria, columns).then((result) => {
+            var usa_data = result[0]
+            newObj['US'] = usa_data
+            res.json(newObj)
+          })
+          
+        })
+      } else {
+        if (duration == 'latest') {
+          // criteria = {"name": new RegExp(`^${source}$`, 'i')}
+          criteria = {"name": source}
+          columns = {timeSeries: {$slice: -1},slug:1, name: 1 }
+        } else if(duration == 'all'){
+          criteria = {"name": source}
+          columns = {}
+        }
+        stateModel.get(criteria, columns).then((result) => {
+          res.json(result)
+        })
+      }
+
+    }else if (scope == 'india') {
+      if (source == 'all') {
+        criteria = {"name": "india"}
+        columns = {timeSeries: {$slice: -1}, slug:1, name: 1}
+        indiaModel.getAggregateResult().then((result) => {
+          var newObj = {}
+          result.forEach((data)=>{
+            newObj[data['name']]= data
+          })
+          countryModel.get(criteria, columns).then((result) => {
+            var india_data = result[0]
+            newObj['India'] = india_data
+            res.json(newObj)
+          })
+          
+        })
+      } else {
+        if (duration == 'latest') {
+          // criteria = {"name": new RegExp(`^${source}$`, 'i')}
+          criteria = {"name": source}
+          columns = {timeSeries: {$slice: -1}, slug:1, name: 1}
+        }else if(duration == 'all'){
+          criteria = {"name": source}
+          columns = {}
+        }
+        indiaModel.get(criteria, columns).then((result) => {
+          res.json(result)
+        })
+      }
+
+    }
+
+  }
 }
+
 
 let analytics = new analyticsContorller(countryModel);
 
