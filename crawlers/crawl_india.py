@@ -99,7 +99,7 @@ def process_india_state_wise_data_for_date(india_collection, valid_date_from_cra
     for state_code, state_name in STATE_CODES.items():
         #print(state_code,state_name)
         state_code = state_code.lower()
-        res_data = requests.get(API_URL+'/api/v0.1/analytics/count?scope=india&source='+state_name+'&duration=latest').json()
+        res_data = requests.get(API_URL+'/api/v0.1/analytics/count/name?scope=india&source='+state_name+'&duration=latest').json()
         previous_confirmed_count = res_data[0]['timeSeries'][0]['confirmed']['count']
         previous_deaths_count = res_data[0]['timeSeries'][0]['deaths']['count']
         previous_recovered_count = res_data[0]['timeSeries'][0]['recovered']['count']
