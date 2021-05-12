@@ -25,7 +25,7 @@
     "@angular/router": "~8.2.14",
     "@swimlane/ngx-charts": "^14.0.0",
     "bootstrap": "^4.4.1",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "d3": "^5.16.0",
     "jquery": "^3.5.0",
     "ng2-charts": "^2.3.2",
